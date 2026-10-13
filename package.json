@@ -8,13 +8,15 @@
     "build": "vite build",
     "game": "start chrome --app=http://localhost:5173",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "serve -s dist -l $PORT"
   },
   "dependencies": {
     "framer-motion": "^11.0.8",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "serve": "^14.2.6",
     "tone": "^14.7.77"
   },
   "devDependencies": {
