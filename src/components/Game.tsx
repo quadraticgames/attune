@@ -2405,15 +2405,17 @@ export default function Game() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
                 onClick={(e) => {
                   if (e.target === e.currentTarget) handleCloseLore();
                 }}
                 className="absolute inset-0 z-50 bg-stone-900/60 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-left"
               >
                 <motion.div
-                  initial={{ scale: 0.95, y: 10 }}
-                  animate={{ scale: 1, y: 0 }}
-                  exit={{ scale: 0.95, y: 10 }}
+                  initial={{ scale: 0.94, opacity: 0, y: 14 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.94, opacity: 0, y: 10 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   className="relative max-w-[480px] sm:max-w-[580px] w-full filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)] drop-shadow-[0_4px_10px_rgba(0,0,0,0.22)] flex flex-col items-center justify-center"
                 >
                   {/* Custom Deckled Parchment Paper with sharp torn corners and micro-tears */}
@@ -2566,15 +2568,17 @@ export default function Game() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: 'easeInOut' }}
                 onClick={(e) => {
                   if (e.target === e.currentTarget) setShowAboutModal(false);
                 }}
                 className="absolute inset-0 z-50 bg-stone-900/65 backdrop-blur-sm flex flex-col items-center justify-center p-4 text-left"
               >
                 <motion.div
-                  initial={{ scale: 0.95, y: 10 }}
-                  animate={{ scale: 1, y: 0 }}
-                  exit={{ scale: 0.95, y: 10 }}
+                  initial={{ scale: 0.94, opacity: 0, y: 14 }}
+                  animate={{ scale: 1, opacity: 1, y: 0 }}
+                  exit={{ scale: 0.94, opacity: 0, y: 10 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   className="washi-card rounded-3xl p-6 sm:p-7 max-w-sm w-full relative shadow-2xl overflow-y-auto max-h-[90vh]"
                 >
                   <button
