@@ -1121,24 +1121,6 @@ export default function Game() {
     };
   }, []);
 
-  // Always start full screen: auto-request fullscreen on startup and on first user gesture
-  useEffect(() => {
-    requestBrowserFullscreen();
-
-    const handleFirstUserGesture = () => {
-      if (!isBrowserFullscreen()) {
-        requestBrowserFullscreen();
-      }
-    };
-
-    window.addEventListener('pointerdown', handleFirstUserGesture, { capture: true, once: true });
-    window.addEventListener('keydown', handleFirstUserGesture, { capture: true, once: true });
-
-    return () => {
-      window.removeEventListener('pointerdown', handleFirstUserGesture, { capture: true });
-      window.removeEventListener('keydown', handleFirstUserGesture, { capture: true });
-    };
-  }, []);
 
   // Native capture-phase click listener for fullscreen buttons to ensure pristine user activation
   useEffect(() => {
@@ -1487,8 +1469,6 @@ export default function Game() {
   }, [isPlaying, isShowingSequence, gameOver, isTranscendence, playerSequence, sequence, strikes, puzzleCount, generateSequenceForPuzzle, showSequence]);
 
   const advanceToNextStage = useCallback(async () => {
-    requestBrowserFullscreen();
-    setIsFullscreen(true);
     if (pendingTimeoutRef.current) {
       clearTimeout(pendingTimeoutRef.current);
       pendingTimeoutRef.current = null;
@@ -1620,8 +1600,6 @@ export default function Game() {
   }, []);
 
   const startGame = async () => {
-    requestBrowserFullscreen();
-    setIsFullscreen(true);
     if (pendingTimeoutRef.current) {
       clearTimeout(pendingTimeoutRef.current);
       pendingTimeoutRef.current = null;
@@ -1663,8 +1641,6 @@ export default function Game() {
   };
 
   const continueCycle = () => {
-    requestBrowserFullscreen();
-    setIsFullscreen(true);
     if (pendingTimeoutRef.current) {
       clearTimeout(pendingTimeoutRef.current);
       pendingTimeoutRef.current = null;
