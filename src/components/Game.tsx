@@ -1446,6 +1446,9 @@ export default function Game() {
     setStrikes(0);
     setStreak(0);
     setPeakStreak(0);
+    setPlayerSequence([]);
+    setFeedback(null);
+    setSequence([]);
     puzzleCountRef.current = 0;
     setPuzzleCount(0);
     setSelectedLoreStage(null);
@@ -1474,34 +1477,7 @@ export default function Game() {
   };
 
   const continueCycle = () => {
-    if (pendingTimeoutRef.current) {
-      clearTimeout(pendingTimeoutRef.current);
-      pendingTimeoutRef.current = null;
-    }
-    const curSeqId = ++sequenceIdRef.current;
-    setIsTranscendence(false);
-    startDrone();
-    const stageIdx = Math.min(Math.floor(puzzleCountRef.current / 3), 8);
-    currentStageSequencesRef.current.set(stageIdx, []);
-    const nextSeq = generateSequenceForPuzzle(puzzleCountRef.current);
-    const stage = STAGES[stageIdx];
-    playStageFanfare();
-    setStageCelebration({
-      stageId: stage.id,
-      name: stage.name,
-      realm: stage.realm,
-    });
-    pendingStageSequenceRef.current = nextSeq;
-    isAwaitingLoreContinueRef.current = true;
-    setIsShowingSequence(false);
-
-    pendingTimeoutRef.current = window.setTimeout(() => {
-      pendingTimeoutRef.current = null;
-      if (sequenceIdRef.current === curSeqId) {
-        setStageCelebration(null);
-        setSelectedLoreStage(stage);
-      }
-    }, 2500);
+    startGame();
   };
 
   // Node coordinates along the left-to-right winding ink brush path
