@@ -65,19 +65,20 @@ export const STAGE_PARTICLE_CONFIG = {
     mistMotes: {
       baseCount: 30, // Number of floating mist particles
       sizeRange: [1.7, 3.2] as [number, number],
-      opacityRange: [0.45, 0.70] as [number, number],
+      opacityRange: [0.45, 0.70] as [number, number], // Opacity: 45% - 70%
       durationRange: [7.2, 11.0] as [number, number], // in seconds
       movementRandomness: 1.0,
-      colors: ['#bbf7d0', '#fef3c7', '#e2f5ec'],
+      colors: ['#bbf7d0', '#fef3c7', '#e2f5ec'], // Pale Jade (#bbf7d0), Morning Gold (#fef3c7), Ethereal Mist (#e2f5ec)
     },
     cloudWisps: {
       count: 9, // Number of drifting horizontal cloud wisps
-      widthRange: [260, 420] as [number, number], // px width (less width, more compact)
-      heightRange: [120, 185] as [number, number], // px height (much fatter, plump curved silhouettes)
-      opacityRange: [0.55, 0.82] as [number, number], // clearly visible ethereal wisps
-      durationRange: [16, 46] as [number, number], // randomized drift speed duration range in seconds (fast & slow variety)
-      blurRange: [1.5, 3.5] as [number, number], // gentle Gaussian blur preserving curved edges
-      movementRandomness: 1.4, // speed and drift variance factor
+      widthRange: [260, 420] as [number, number],
+      heightRange: [120, 185] as [number, number],
+      opacityRange: [0.55, 0.82] as [number, number], // Opacity: 55% - 82%
+      durationRange: [16, 46] as [number, number],
+      blurRange: [1.5, 3.5] as [number, number],
+      movementRandomness: 1.4,
+      colors: ['#ffffff', '#f0fdf4'], // Pure White (#ffffff), Pale Greenish White (#f0fdf4)
     },
   },
 
@@ -86,10 +87,11 @@ export const STAGE_PARTICLE_CONFIG = {
     snowflakes: {
       baseCount: 58, // Total falling snowflakes
       sizeRange: [1.6, 4.2] as [number, number],
-      opacityRange: [0.45, 0.92] as [number, number],
+      opacityRange: [0.45, 0.92] as [number, number], // Opacity: 45% - 92%
       durationRange: [5.0, 9.0] as [number, number], // fall duration in seconds
       movementRandomness: 1.2, // horizontal sway & wobble variance
       swayWidthPx: 28, // max horizontal drift distance in px
+      colors: ['#ffffff', '#f1f5f9', '#e2e8f0'], // Crisp White (#ffffff), Soft Frost (#f1f5f9), Icy Silver (#e2e8f0)
     },
   },
 
@@ -98,10 +100,10 @@ export const STAGE_PARTICLE_CONFIG = {
     goldenSparks: {
       baseCount: 36, // Floating sacred embers
       sizeRange: [0.2, 1.0] as [number, number],
-      opacityRange: [0.55, 0.90] as [number, number],
+      opacityRange: [0.55, 0.90] as [number, number], // Opacity: 55% - 90%
       durationRange: [6.5, 10.5] as [number, number],
       movementRandomness: 0.2,
-      colors: ['#fef08a', '#fde047', '#f59e0b', '#fb923c', '#ea580c'],
+      colors: ['#fef08a', '#fde047', '#f59e0b', '#fb923c', '#ea580c'], // Pale Gold (#fef08a), Warm Gold (#fde047), Amber (#f59e0b), Flame Orange (#fb923c), Deep Ember (#ea580c)
     },
     heatDistortion: {
       streakCount: 0,
@@ -120,22 +122,22 @@ export const STAGE_PARTICLE_CONFIG = {
     blossomPetals: {
       baseCount: 28, // Drifting peach & lotus blossom petals
       sizeRange: [5.0, 7.2] as [number, number],
-      opacityRange: [0.50, 0.75] as [number, number],
+      opacityRange: [0.50, 0.75] as [number, number], // Opacity: 50% - 75%
       durationRange: [8.0, 10.4] as [number, number],
-      movementRandomness: 1.3, // tumbling sway and rotation variation
-      colors: ['#fbcfe8', '#fce7f3', '#f472b6'],
+      movementRandomness: 1.3,
+      colors: ['#fbcfe8', '#fce7f3', '#f472b6'], // Peach Blossom Pink (#fbcfe8), Soft Petal (#fce7f3), Deep Blossom Rose (#f472b6)
     },
   },
 
-  // Stage 5: Rich Man - Opulent Gilded Cinnabar Marketplace Lantern Embers
+  // Stage 5: Rich Man (Greed) - Opulent Gilded Cinnabar Marketplace Lantern Embers
   stage5: {
     lanternEmbers: {
       baseCount: 24, // Rising warm cinnabar and gold sparks
       sizeRange: [2.0, 3.4] as [number, number],
-      opacityRange: [0.65, 0.90] as [number, number],
+      opacityRange: [0.65, 0.90] as [number, number], // Opacity: 65% - 90%
       durationRange: [6.0, 8.2] as [number, number],
       movementRandomness: 1.1,
-      colors: ['#fb923c', '#fb7185', '#fda4af', '#f43f5e'],
+      colors: ['#fb923c', '#fb7185', '#fda4af', '#f43f5e'], // Warm Amber (#fb923c), Rose Ember (#fb7185), Light Cinnabar (#fda4af), Deep Cinnabar (#f43f5e)
     },
   },
 
@@ -144,11 +146,12 @@ export const STAGE_PARTICLE_CONFIG = {
     sapphireStars: {
       baseCount: 68, // Twinkling night stars
       sizeRange: [1.3, 4.2] as [number, number],
-      opacityRange: [0.50, 0.98] as [number, number],
+      opacityRange: [0.50, 0.98] as [number, number], // Opacity: 50% - 98%
       durationRange: [2.9, 5.4] as [number, number], // twinkle period in seconds
       movementRandomness: 1.0,
       majorSparkleRatio: 0.15, // Ratio of stars with 4-point diamond sparkle flare
-      defaultGlow: 'rgba(165, 243, 252, 0.85)',
+      colors: ['#ffffff', '#e0f2fe', '#bae6fd'], // Star White (#ffffff), Light Cyan (#e0f2fe), Soft Sapphire Blue (#bae6fd)
+      defaultGlow: 'rgba(165, 243, 252, 0.85)', // Sapphire Halo (85% opacity)
     },
   },
 
@@ -157,33 +160,20 @@ export const STAGE_PARTICLE_CONFIG = {
     bambooLeaves: {
       baseCount: 24, // Drifting bamboo leaves
       sizeRange: [6.0, 8.2] as [number, number],
-      opacityRange: [0.50, 0.70] as [number, number],
+      opacityRange: [0.50, 0.70] as [number, number], // Opacity: 50% - 70%
       durationRange: [8.6, 10.8] as [number, number],
       movementRandomness: 1.25,
-      colors: ['#38bdf8', '#67e8f9', '#22d3ee', '#a7f3d0', '#34d399'], // Aqua river & fresh bamboo jade
+      colors: ['#38bdf8', '#67e8f9', '#22d3ee', '#a7f3d0', '#34d399'], // Sky Aqua (#38bdf8), Luminous Cyan (#67e8f9), Teal Water (#22d3ee), Soft Mint (#a7f3d0), Fresh Bamboo Green (#34d399)
     },
     aquaRiverOverlay: {
       enabled: true,
-      /**
-       * Overall opacity of the aqua river overlay (0.0 to 1.0).
-       * Set high for prominent, immersive aqua blue atmosphere.
-       */
-      opacity: 0.68,
-      /**
-       * Secondary river current shimmer wave opacity (0.0 to 1.0).
-       */
-      shimmerOpacity: 0.45,
-      /**
-       * Aqua gradient wash stops from morning sky down into the deep river current
-       */
-      skyWash: 'rgba(6, 182, 212, 0.45)',      // Vibrant luminous aqua
-      midRiverWash: 'rgba(14, 165, 233, 0.58)', // Rich river cerulean
-      deepRiverWash: 'rgba(2, 132, 199, 0.72)', // Flowing river water
-      riverbedWash: 'rgba(3, 105, 161, 0.82)',  // Deep meditative river current
-      /**
-       * Flowing water ripple wave highlight color
-       */
-      waterRippleColor: 'rgba(103, 232, 249, 0.65)',
+      opacity: 0.68, // Overall river overlay opacity: 68%
+      shimmerOpacity: 0.45, // Shimmer ripple opacity: 45%
+      skyWash: 'rgba(6, 182, 212, 0.45)',      // Luminous aqua cyan (45% opacity)
+      midRiverWash: 'rgba(14, 165, 233, 0.58)', // Cerulean river wash (58% opacity)
+      deepRiverWash: 'rgba(2, 132, 199, 0.72)', // Deep river water (72% opacity)
+      riverbedWash: 'rgba(3, 105, 161, 0.82)',  // Riverbed current (82% opacity)
+      waterRippleColor: 'rgba(103, 232, 249, 0.65)', // Ripple highlight (65% opacity)
     },
   },
 
@@ -192,11 +182,12 @@ export const STAGE_PARTICLE_CONFIG = {
     amethystStars: {
       baseCount: 64, // Twinkling twilight stars
       sizeRange: [1.3, 4.0] as [number, number],
-      opacityRange: [0.50, 0.98] as [number, number],
+      opacityRange: [0.50, 0.98] as [number, number], // Opacity: 50% - 98%
       durationRange: [2.8, 5.3] as [number, number],
       movementRandomness: 1.0,
       majorSparkleRatio: 0.14,
-      defaultGlow: 'rgba(216, 180, 254, 0.85)',
+      colors: ['#ffffff', '#f5d0fe', '#e9d5ff'], // Star White (#ffffff), Light Violet (#f5d0fe), Amethyst Lilac (#e9d5ff)
+      defaultGlow: 'rgba(216, 180, 254, 0.85)', // Amethyst Twilight Glow (85% opacity)
     },
   },
 
@@ -205,18 +196,19 @@ export const STAGE_PARTICLE_CONFIG = {
     snowflakes: {
       baseCount: 60, // Total falling celestial snowflakes
       sizeRange: [1.8, 4.4] as [number, number],
-      opacityRange: [0.55, 0.95] as [number, number],
+      opacityRange: [0.55, 0.95] as [number, number], // Opacity: 55% - 95%
       durationRange: [4.8, 8.5] as [number, number], // fall duration in seconds
       movementRandomness: 1.25,
       swayWidthPx: 28,
+      colors: ['#ffffff', '#f8fafc', '#e0f2fe'], // Pure Celestial White (#ffffff), Ghost White (#f8fafc), Ice Blue (#e0f2fe)
     },
     spiritMotes: {
       baseCount: 22, // Ascending transcendental spirit particles
       sizeRange: [2.0, 3.8] as [number, number],
-      opacityRange: [0.55, 0.88] as [number, number],
+      opacityRange: [0.55, 0.88] as [number, number], // Opacity: 55% - 88%
       durationRange: [6.2, 9.0] as [number, number],
       movementRandomness: 1.2,
-      colors: ['#ffffff', '#e0f2fe', '#bae6fd', '#fef08a'],
+      colors: ['#ffffff', '#e0f2fe', '#bae6fd', '#fef08a'], // Pure White (#ffffff), Soft Celestial Blue (#e0f2fe), Sky Glow (#bae6fd), Enlightenment Gold (#fef08a)
     },
   },
 };
