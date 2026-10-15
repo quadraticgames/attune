@@ -2363,7 +2363,7 @@ export default function Game() {
                   animate={{ scale: 1, opacity: 1, y: 0 }}
                   exit={{ scale: 0.94, opacity: 0, y: 10 }}
                   transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                  className="washi-card rounded-3xl p-6 sm:p-7 max-w-sm w-full relative shadow-2xl overflow-y-auto max-h-[90vh]"
+                  className="washi-card rounded-3xl p-6 sm:p-8 max-w-[520px] sm:max-w-[620px] w-full relative shadow-2xl overflow-y-auto max-h-[92vh]"
                 >
                   <button
                     onClick={() => setShowAboutModal(false)}
