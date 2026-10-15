@@ -2029,7 +2029,9 @@ export default function Game() {
 
                   {/* Stage Realm & Title */}
                   <div 
-                    className="relative cursor-pointer group select-none mt-0.5 flex flex-col items-center"
+                    className={`relative cursor-pointer group select-none flex flex-col items-center transition-all duration-500 ${
+                      isFullscreen ? 'mt-16 sm:mt-20 md:mt-24' : 'mt-0.5 sm:mt-1'
+                    }`}
                     onClick={() => setSelectedLoreStage(currentStage)}
                   >
                     <AnimatePresence mode="wait">
@@ -2048,14 +2050,18 @@ export default function Game() {
                         >
                           {currentStage.realm} • STAGE {currentStage.id}
                         </span>
-                        <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-tight leading-tight font-serif-zen transition-colors duration-500 whitespace-nowrap ${
+                        <h2 className={`${
+                          isFullscreen ? 'text-2xl sm:text-[1.8rem] md:text-4xl' : 'text-xl sm:text-2xl md:text-3xl'
+                        } font-bold tracking-tight leading-tight font-serif-zen transition-colors duration-500 whitespace-nowrap ${
                           currentTheme.isNight
                             ? 'text-amber-100 group-hover:text-amber-200 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]'
                             : 'text-stone-900 group-hover:text-emerald-900'
                         }`}>
                           {currentStage.name}
                         </h2>
-                        <div className="text-[10.5px] sm:text-[13px] font-serif-zen tracking-widest flex items-center justify-center space-x-2 whitespace-nowrap">
+                        <div className={`${
+                          isFullscreen ? 'text-[11px] sm:text-[14.5px]' : 'text-[10.5px] sm:text-[13px]'
+                        } font-serif-zen tracking-widest flex items-center justify-center space-x-2 whitespace-nowrap`}>
                           <span className={`font-bold uppercase transition-colors duration-500 ${
                             currentTheme.isNight ? 'text-amber-200/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]' : 'text-stone-700'
                           }`}>
