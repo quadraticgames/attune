@@ -100,7 +100,7 @@ export const STAGE_PARTICLE_CONFIG = {
       sizeRange: [2.2, 4.6] as [number, number],
       opacityRange: [0.55, 0.90] as [number, number],
       durationRange: [6.5, 10.5] as [number, number],
-      movementRandomness: 1.0,
+      movementRandomness: 0.2,
       colors: ['#fef08a', '#fde047', '#f59e0b', '#fb923c', '#ea580c'],
     },
     heatDistortion: {
