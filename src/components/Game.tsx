@@ -9,8 +9,6 @@ import {
   getStage1CloudWisps,
   getStage2Snowflakes,
   getStage3GoldenSparks,
-  getStage3HeatStreaks,
-  getStage3HeatHazeBands,
   getStage4BlossomPetals,
   getStage5LanternEmbers,
   getStage6NightStars,
@@ -343,76 +341,6 @@ function StageOneCloudWisps() {
 
 const MIST_MOTES = getStage1MistMotes();
 const FALLING_SNOWFLAKES = getStage2Snowflakes();
-const STAGE_3_HEAT_HAZE_BANDS = getStage3HeatHazeBands();
-const STAGE_3_HEAT_STREAKS = getStage3HeatStreaks();
-
-function StageThreeHeatDistortion() {
-  return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Ambient Rising Heat Mirage Horizon Glow with Shimmer Pulse */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-3/5 anim-heat-flutter pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 90% 60% at 50% 100%, rgba(245, 158, 11, 0.18) 0%, rgba(254, 240, 138, 0.09) 45%, transparent 80%)',
-        }}
-      />
-
-      {/* Vertical Motion-Blurred Heat Shimmer Streaks */}
-      {STAGE_3_HEAT_STREAKS.map((streak, idx) => (
-        <div
-          key={`streak-${idx}`}
-          className={`absolute bottom-0 pointer-events-none ${streak.variant === 1 ? 'anim-heat-shimmer-1' : 'anim-heat-shimmer-2'}`}
-          style={{
-            left: `${streak.x}%`,
-            width: `${streak.width}px`,
-            height: `${streak.height}px`,
-            background:
-              'linear-gradient(to top, rgba(245, 158, 11, 0.35) 0%, rgba(253, 224, 71, 0.2) 55%, transparent 100%)',
-            opacity: streak.opacity,
-            filter: 'blur(2px)',
-            transform: 'scaleY(1.35)',
-            animationDuration: `${streak.dur}s`,
-            animationDelay: `${streak.delay}s`,
-          }}
-        />
-      ))}
-
-      {/* Layered Horizontal Heat Haze Mirage Wave Bands with Backdrop Motion Blur */}
-      {STAGE_3_HEAT_HAZE_BANDS.map((band, idx) => (
-        <div
-          key={`band-${idx}`}
-          className={`absolute left-0 right-0 pointer-events-none ${band.variant === 1 ? 'anim-heat-shimmer-1' : 'anim-heat-shimmer-2'}`}
-          style={{
-            top: `${band.y}%`,
-            height: `${band.height}px`,
-            backdropFilter: 'blur(2px) contrast(1.06) brightness(1.05)',
-            WebkitBackdropFilter: 'blur(2px) contrast(1.06) brightness(1.05)',
-            background:
-              'linear-gradient(180deg, transparent 0%, rgba(245, 158, 11, 0.07) 35%, rgba(254, 240, 138, 0.1) 65%, transparent 100%)',
-            animationDuration: `${band.dur}s`,
-            animationDelay: `${band.delay}s`,
-          }}
-        />
-      ))}
-
-      {/* Buddha Aura Heat Corona Shimmer */}
-      <div
-        className="absolute rounded-full pointer-events-none anim-heat-flutter"
-        style={{
-          width: '260px',
-          height: '260px',
-          left: '50%',
-          top: '26%',
-          transform: 'translate(-50%, -50%)',
-          background: 'radial-gradient(circle, rgba(253, 224, 71, 0.25) 0%, rgba(245, 158, 11, 0.14) 50%, transparent 75%)',
-          filter: 'blur(3.5px)',
-        }}
-      />
-    </div>
-  );
-}
-
 const GOLDEN_SPARKS = getStage3GoldenSparks();
 const BLOSSOM_PETALS = getStage4BlossomPetals();
 const BAMBOO_LEAVES = getStage7BambooLeaves();
@@ -545,13 +473,11 @@ function StageAtmosphericParticles({ stageId }: { stageId: number }) {
     case 3:
       return (
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-          {/* Sacred Ascetic Heat Waves & Motion Blur */}
-          <StageThreeHeatDistortion />
-          {/* Sacred Golden Enlightenment Sparks */}
+          {/* Floating Sacred Embers */}
           {GOLDEN_SPARKS.map((spark, idx) => (
             <div
               key={idx}
-              className={`absolute rounded-full pointer-events-none ${spark.variant === 1 ? 'anim-golden-1' : 'anim-golden-2'}`}
+              className={`absolute rounded-full pointer-events-none ${spark.variant === 1 ? 'anim-ember-1' : 'anim-ember-2'}`}
               style={{
                 left: `${spark.x}%`,
                 bottom: `${spark.y}%`,
@@ -560,7 +486,7 @@ function StageAtmosphericParticles({ stageId }: { stageId: number }) {
                 backgroundColor: spark.color,
                 '--particle-opacity': spark.opacity,
                 opacity: spark.opacity,
-                boxShadow: `0 0 5px ${spark.color}`,
+                boxShadow: `0 0 6px ${spark.color}, 0 0 10px rgba(245, 158, 11, 0.45)`,
                 animationDuration: `${spark.dur}s`,
                 animationDelay: `${spark.delay}s`,
               } as CustomCSSProperties}

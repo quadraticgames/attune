@@ -93,25 +93,25 @@ export const STAGE_PARTICLE_CONFIG = {
     },
   },
 
-  // Stage 3: Confronting the Buddha - Sacred Sparks & Heat Shimmer Motion Blur
+  // Stage 3: Confronting the Buddha - Sacred Floating Embers
   stage3: {
     goldenSparks: {
-      baseCount: 24, // Ascending golden enlightenment sparks
-      sizeRange: [2.0, 3.6] as [number, number],
-      opacityRange: [0.55, 0.85] as [number, number],
-      durationRange: [6.5, 9.4] as [number, number],
+      baseCount: 36, // Floating sacred embers
+      sizeRange: [2.2, 4.6] as [number, number],
+      opacityRange: [0.55, 0.90] as [number, number],
+      durationRange: [6.5, 10.5] as [number, number],
       movementRandomness: 1.0,
-      colors: ['#fef08a', '#fde047', '#f59e0b'],
+      colors: ['#fef08a', '#fde047', '#f59e0b', '#fb923c', '#ea580c'],
     },
     heatDistortion: {
-      streakCount: 7, // Rising vertical heat plumes
-      streakWidthRange: [28, 44] as [number, number],
-      streakHeightRange: [210, 300] as [number, number],
-      streakDurationRange: [4.4, 5.5] as [number, number],
-      hazeBandCount: 4, // Horizontal refraction mirage wave bands
-      hazeBandBlurPx: 2.0, // Backdrop filter blur amount in px
-      heatCoronaRadiusPx: 260, // Buddha sun halo shimmer size
-      movementRandomness: 1.1,
+      streakCount: 0,
+      streakWidthRange: [0, 0] as [number, number],
+      streakHeightRange: [0, 0] as [number, number],
+      streakDurationRange: [0, 0] as [number, number],
+      hazeBandCount: 0,
+      hazeBandBlurPx: 0,
+      heatCoronaRadiusPx: 0,
+      movementRandomness: 0,
     },
   },
 
@@ -412,39 +412,17 @@ export function getStage3GoldenSparks(): ParticleItem[] {
 }
 
 /**
- * Generate Stage 3 Heat Streaks
+ * Generate Stage 3 Heat Streaks (Disabled - floating embers only)
  */
 export function getStage3HeatStreaks(): HeatStreakItem[] {
-  const cfg = STAGE_PARTICLE_CONFIG.stage3.heatDistortion;
-  const count = cfg.streakCount;
-  const prng = createPRNG(505);
-  const items: HeatStreakItem[] = [];
-
-  for (let i = 0; i < count; i++) {
-    const x = Math.round(lerp(8, 92, (i + prng() * 0.7) / count));
-    const width = Math.round(lerp(cfg.streakWidthRange[0], cfg.streakWidthRange[1], prng()));
-    const height = Math.round(lerp(cfg.streakHeightRange[0], cfg.streakHeightRange[1], prng()));
-    const opacity = +(lerp(0.35, 0.48, prng())).toFixed(2);
-    const dur = +(lerp(cfg.streakDurationRange[0], cfg.streakDurationRange[1], prng()) / GLOBAL_VISUAL_CONFIG.speedMultiplier).toFixed(1);
-    const delay = +(-lerp(0.6, dur * 0.8, prng())).toFixed(1);
-    const variant = (i % 2 === 0 ? 1 : 2) as 1 | 2;
-
-    items.push({ x, width, height, opacity, dur, delay, variant });
-  }
-
-  return items;
+  return [];
 }
 
 /**
- * Generate Stage 3 Heat Haze Bands
+ * Generate Stage 3 Heat Haze Bands (Disabled - floating embers only)
  */
 export function getStage3HeatHazeBands(): HeatHazeBandItem[] {
-  return [
-    { y: 35, height: 120, dur: 4.8 / GLOBAL_VISUAL_CONFIG.speedMultiplier, delay: -0.6, variant: 1 },
-    { y: 50, height: 140, dur: 5.6 / GLOBAL_VISUAL_CONFIG.speedMultiplier, delay: -2.4, variant: 2 },
-    { y: 65, height: 160, dur: 4.5 / GLOBAL_VISUAL_CONFIG.speedMultiplier, delay: -1.2, variant: 1 },
-    { y: 78, height: 180, dur: 5.2 / GLOBAL_VISUAL_CONFIG.speedMultiplier, delay: -3.8, variant: 2 },
-  ];
+  return [];
 }
 
 /**
