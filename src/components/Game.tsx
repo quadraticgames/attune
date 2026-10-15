@@ -2533,7 +2533,7 @@ export default function Game() {
                     onClick={handleCloseLore}
                     className="jade-stone mt-5 w-full py-2.5 text-emerald-950 font-bold rounded-xl transition-all cursor-pointer text-xs uppercase tracking-wider font-serif-zen shadow-sm"
                   >
-                    Continue Journey
+                    Continue Your Journey...
                   </button>
                 </motion.div>
               </motion.div>
