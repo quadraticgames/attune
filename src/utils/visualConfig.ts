@@ -56,7 +56,154 @@ export const GLOBAL_VISUAL_CONFIG = {
 };
 
 // ----------------------------------------------------------------------------
-// 2. PER-STAGE PARTICLE & MOVEMENT CONFIGURATION
+// 2. PER-STAGE THEMES (SKY GRADIENTS, CELESTIAL ORB & FOG COLORS/OPACITY)
+// ----------------------------------------------------------------------------
+
+export type StageTheme = {
+  isNight?: boolean;
+  isWinter?: boolean;
+  skyGradient: [string, string, string, string]; // 4-stop sky gradient colors
+  farMountain: string;
+  midMountain: string;
+  slopeMountain: string;
+  fogColor: string;
+  fogOpacity: number; // 0.0 to 1.0 (Fog wash opacity)
+  celestial: {
+    cx: number; // Sun/Moon X position in % of width
+    cy: number; // Sun/Moon Y position
+    r: number;  // Disc radius in px
+    fill: string; // Core orb fill color
+    glow: string; // Radiant halo flare color
+    opacity: number; // 0.0 to 1.0 (Sun/Moon orb opacity)
+  };
+  sparkleColor: string;
+  waterColor: string;
+};
+
+export const STAGE_THEMES: Record<number, StageTheme> = {
+  // Stage 1: The Brahmin’s Cage - Crisp Pale Morning Mist & Green Bamboo Dawn
+  1: {
+    isNight: false,
+    skyGradient: ['#fbf7ed', '#f4ece1', '#f7eae4', '#eeddd6'],
+    farMountain: '#e3dbcc',
+    midMountain: '#dbd1bd',
+    slopeMountain: '#cfc3af',
+    fogColor: '#52b788',
+    fogOpacity: 0.12, // 12% opacity
+    celestial: { cx: 280, cy: 95, r: 38, fill: '#fff9ee', glow: '#fed7aa', opacity: 0.55 }, // 55% opacity
+    sparkleColor: '#a5f3fc',
+    waterColor: '#ded4be',
+  },
+  // Stage 2: The Samana Trials - Frosty Himalayan Winter of Asceticism & Desaturated Snow
+  2: {
+    isWinter: true,
+    isNight: false,
+    skyGradient: ['#eef3f8', '#dfe8f1', '#cfdce8', '#b8cadc'],
+    farMountain: '#8b9cb0',
+    midMountain: '#5c6f84',
+    slopeMountain: '#3b4b5e',
+    fogColor: '#e2e8f0',
+    fogOpacity: 0.32, // 32% opacity
+    celestial: { cx: 340, cy: 75, r: 38, fill: '#ffffff', glow: '#dbeafe', opacity: 0.90 }, // 90% opacity
+    sparkleColor: '#ffffff',
+    waterColor: '#cfdce8',
+  },
+  // Stage 3: Confronting the Buddha - Sacred Golden Enlightenment Radiance
+  3: {
+    isNight: false,
+    skyGradient: ['#fefce8', '#fef3c7', '#fde68a', '#fcd34d'],
+    farMountain: '#e5d19a',
+    midMountain: '#d9c283',
+    slopeMountain: '#c9b06b',
+    fogColor: '#f59e0b',
+    fogOpacity: 0.20, // 20% opacity
+    celestial: { cx: 500, cy: 105, r: 64, fill: '#fef08a', glow: '#f59e0b', opacity: 0.70 }, // 70% opacity
+    sparkleColor: '#fef08a',
+    waterColor: '#e0c98f',
+  },
+  // Stage 4: The Garden of Kamala - Senses Awakening, Blooming Peach & Rose Dusk
+  4: {
+    isNight: false,
+    skyGradient: ['#fdf2f4', '#fce7ed', '#fbcfe8', '#f5d0fe'],
+    farMountain: '#e2bccd',
+    midMountain: '#d4a9bc',
+    slopeMountain: '#c292a8',
+    fogColor: '#ec4899',
+    fogOpacity: 0.15, // 15% opacity
+    celestial: { cx: 720, cy: 90, r: 46, fill: '#fdf2f8', glow: '#f472b6', opacity: 0.65 }, // 65% opacity
+    sparkleColor: '#fbcfe8',
+    waterColor: '#ddb8ca',
+  },
+  // Stage 5: Rich Man (Greed) - Opulent Gilded Cinnabar Marketplace & Gilded Sunset
+  5: {
+    isNight: false,
+    skyGradient: ['#fff7ed', '#ffedd5', '#fed7aa', '#ea580c'],
+    farMountain: '#d49b78',
+    midMountain: '#b8724e',
+    slopeMountain: '#9c5a38',
+    fogColor: '#f97316',
+    fogOpacity: 0.16, // 16% opacity
+    celestial: { cx: 780, cy: 85, r: 44, fill: '#fffbeb', glow: '#f59e0b', opacity: 0.85 }, // 85% opacity
+    sparkleColor: '#fde047',
+    waterColor: '#b8724e',
+  },
+  // Stage 6: The River of Rebirth (The Dark Night of the Soul) - Radiant Sapphire Midnight & Moonlit Waters
+  6: {
+    isNight: true,
+    skyGradient: ['#162544', '#203762', '#314e86', '#1a2e54'],
+    farMountain: '#253b66',
+    midMountain: '#1d3055',
+    slopeMountain: '#152544',
+    fogColor: '#a5b4fc',
+    fogOpacity: 0.24, // 24% opacity
+    celestial: { cx: 480, cy: 70, r: 44, fill: '#ffffff', glow: '#c7d2fe', opacity: 0.98 }, // 98% opacity
+    sparkleColor: '#c7d2fe',
+    waterColor: '#253b66',
+  },
+  // Stage 7: The Ferryman’s Disciple - Sacred Flowing Aqua River & Eternal Current
+  7: {
+    isNight: false,
+    skyGradient: ['#e0f7fa', '#b2ebf2', '#67e8f9', '#06b6d4'],
+    farMountain: '#0284c7',
+    midMountain: '#0369a1',
+    slopeMountain: '#075985',
+    fogColor: '#00e5ff',
+    fogOpacity: 0.32, // 32% opacity
+    celestial: { cx: 280, cy: 95, r: 48, fill: '#ecfeff', glow: '#22d3ee', opacity: 0.90 }, // 90% opacity
+    sparkleColor: '#38bdf8',
+    waterColor: '#0284c7',
+  },
+  // Stage 8: The Wound of Love - Celestial Amethyst Twilight Night & Solitary Moon
+  8: {
+    isNight: true,
+    skyGradient: ['#2b1f42', '#3c2b5c', '#533c7c', '#2f2149'],
+    farMountain: '#463268',
+    midMountain: '#392756',
+    slopeMountain: '#2c1c44',
+    fogColor: '#d8b4fe',
+    fogOpacity: 0.22, // 22% opacity
+    celestial: { cx: 640, cy: 75, r: 42, fill: '#ffffff', glow: '#e9d5ff', opacity: 0.96 }, // 96% opacity
+    sparkleColor: '#e9d5ff',
+    waterColor: '#392756',
+  },
+  // Stage 9: The Eternal Flow (The Eternal Glow) - Radiant Celestial Winter Snow & Ultimate Oneness
+  9: {
+    isWinter: true,
+    isNight: false,
+    skyGradient: ['#f8fafc', '#edf2f7', '#dbeafe', '#b8cadc'],
+    farMountain: '#8094aa',
+    midMountain: '#586e85',
+    slopeMountain: '#3a4e63',
+    fogColor: '#f1f5f9',
+    fogOpacity: 0.35, // 35% opacity
+    celestial: { cx: 885, cy: 80, r: 56, fill: '#ffffff', glow: '#dbeafe', opacity: 0.98 }, // 98% opacity
+    sparkleColor: '#ffffff',
+    waterColor: '#cfdce8',
+  },
+};
+
+// ----------------------------------------------------------------------------
+// 3. PER-STAGE PARTICLE & MOVEMENT CONFIGURATION
 // ----------------------------------------------------------------------------
 
 export const STAGE_PARTICLE_CONFIG = {
