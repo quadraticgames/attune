@@ -84,11 +84,11 @@ export const STAGE_THEMES: Record<number, StageTheme> = {
   // Stage 1: The Brahmin’s Cage - Crisp Pale Morning Mist & Green Bamboo Dawn
   1: {
     isNight: false,
-    skyGradient: ['#fbf7ed', '#f4ece1', '#f7eae4', '#eeddd6'],
+    skyGradient: ['#f5edfb', '#f4ece1', '#f7eae4', '#eeddd6'],
     farMountain: '#e3dbcc',
     midMountain: '#dbd1bd',
     slopeMountain: '#cfc3af',
-    fogColor: '#52b788',
+    fogColor: '#5a52b7ff',
     fogOpacity: 0.12, // 12% opacity
     celestial: { cx: 280, cy: 95, r: 38, fill: '#fff9ee', glow: '#fed7aa', opacity: 0.55 }, // 55% opacity
     sparkleColor: '#a5f3fc',
@@ -111,11 +111,11 @@ export const STAGE_THEMES: Record<number, StageTheme> = {
   // Stage 3: Confronting the Buddha - Sacred Golden Enlightenment Radiance
   3: {
     isNight: false,
-    skyGradient: ['#fefce8', '#fef3c7', '#fde68a', '#fcd34d'],
+    skyGradient: ['#fbf8d8', '#fef3c7', '#ffefb0', '#fcd34d'],
     farMountain: '#e5d19a',
     midMountain: '#d9c283',
     slopeMountain: '#c9b06b',
-    fogColor: '#f59e0b',
+    fogColor: '#0c0711ff',
     fogOpacity: 0.20, // 20% opacity
     celestial: { cx: 500, cy: 105, r: 64, fill: '#fef08a', glow: '#f59e0b', opacity: 0.70 }, // 70% opacity
     sparkleColor: '#fef08a',
@@ -134,18 +134,18 @@ export const STAGE_THEMES: Record<number, StageTheme> = {
     sparkleColor: '#fbcfe8',
     waterColor: '#ddb8ca',
   },
-  // Stage 5: Rich Man (Greed) - Opulent Gilded Cinnabar Marketplace & Gilded Sunset
+  // Stage 5: Rich Man (Greed) - Decadent Decay, Heavy Smog, Tarnished Gold & Charcoal
   5: {
-    isNight: false,
-    skyGradient: ['#fff7ed', '#ffedd5', '#fed7aa', '#ea580c'],
-    farMountain: '#d49b78',
-    midMountain: '#b8724e',
-    slopeMountain: '#9c5a38',
-    fogColor: '#f97316',
-    fogOpacity: 0.16, // 16% opacity
-    celestial: { cx: 780, cy: 85, r: 44, fill: '#fffbeb', glow: '#f59e0b', opacity: 0.85 }, // 85% opacity
-    sparkleColor: '#fde047',
-    waterColor: '#b8724e',
+    isNight: true,
+    skyGradient: ['#1c1a17', '#2e271f', '#3d3326', '#1a1612'], // Heavy oppressive smog & dark smoky bronze
+    farMountain: '#383025',
+    midMountain: '#2a231a',
+    slopeMountain: '#18140f',
+    fogColor: '#12100d',
+    fogOpacity: 0.45, // Heavy brooding smog haze (45% opacity)
+    celestial: { cx: 780, cy: 85, r: 44, fill: '#b8944d', glow: '#6e5424', opacity: 0.75 }, // Weary, tarnished greedy gold sun
+    sparkleColor: '#c59f52',
+    waterColor: '#241e16',
   },
   // Stage 6: The River of Rebirth (The Dark Night of the Soul) - Radiant Sapphire Midnight & Moonlit Waters
   6: {
@@ -167,8 +167,8 @@ export const STAGE_THEMES: Record<number, StageTheme> = {
     farMountain: '#0284c7',
     midMountain: '#0369a1',
     slopeMountain: '#075985',
-    fogColor: '#00e5ff',
-    fogOpacity: 0.32, // 32% opacity
+    fogColor: '#0055ffff',
+    fogOpacity: 0.82, // 32% opacity
     celestial: { cx: 280, cy: 95, r: 48, fill: '#ecfeff', glow: '#22d3ee', opacity: 0.90 }, // 90% opacity
     sparkleColor: '#38bdf8',
     waterColor: '#0284c7',
@@ -276,15 +276,15 @@ export const STAGE_PARTICLE_CONFIG = {
     },
   },
 
-  // Stage 5: Rich Man (Greed) - Opulent Gilded Cinnabar Marketplace Lantern Embers
+  // Stage 5: Rich Man (Greed) - Drifting Soot & Tarnished Gold Embers
   stage5: {
     lanternEmbers: {
-      baseCount: 24, // Rising warm cinnabar and gold sparks
-      sizeRange: [2.0, 3.4] as [number, number],
-      opacityRange: [0.65, 0.90] as [number, number], // Opacity: 65% - 90%
-      durationRange: [6.0, 8.2] as [number, number],
+      baseCount: 26, // Rising heavy smoky embers and tarnished gold flakes
+      sizeRange: [2.0, 3.6] as [number, number],
+      opacityRange: [0.50, 0.85] as [number, number], // Opacity: 50% - 85%
+      durationRange: [6.0, 8.5] as [number, number],
       movementRandomness: 1.1,
-      colors: ['#fb923c', '#fb7185', '#fda4af', '#f43f5e'], // Warm Amber (#fb923c), Rose Ember (#fb7185), Light Cinnabar (#fda4af), Deep Cinnabar (#f43f5e)
+      colors: ['#c59f52', '#997736', '#705423', '#a89f91', '#544c41'], // Tarnished Gold (#c59f52), Dark Brass (#997736), Burnt Umber (#705423), Soot Gray (#a89f91), Charcoal (#544c41)
     },
   },
 
