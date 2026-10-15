@@ -2042,21 +2042,20 @@ export default function Game() {
                         className="flex flex-col items-center"
                       >
                         <span
-                          style={{ paddingTop: '100px' }}
-                          className={`text-[10px] sm:text-[11px] font-black uppercase tracking-[0.25em] block font-serif-zen whitespace-nowrap transition-colors duration-500 pt-[100px] ${
+                          className={`text-[10px] sm:text-[11px] font-black uppercase tracking-[0.25em] block font-serif-zen whitespace-nowrap transition-colors duration-500 pt-0.5 sm:pt-1 ${
                             currentTheme.isNight ? 'text-emerald-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]' : 'text-[#34705a]'
                           }`}
                         >
                           {currentStage.realm} • STAGE {currentStage.id}
                         </span>
-                        <h2 className={`text-2xl sm:text-[1.8rem] md:text-4xl font-bold tracking-tight leading-tight font-serif-zen transition-colors duration-500 whitespace-nowrap ${
+                        <h2 className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-tight leading-tight font-serif-zen transition-colors duration-500 whitespace-nowrap ${
                           currentTheme.isNight
                             ? 'text-amber-100 group-hover:text-amber-200 drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]'
                             : 'text-stone-900 group-hover:text-emerald-900'
                         }`}>
                           {currentStage.name}
                         </h2>
-                        <div className="text-[11px] sm:text-[14.5px] font-serif-zen tracking-widest flex items-center justify-center space-x-2 whitespace-nowrap">
+                        <div className="text-[10.5px] sm:text-[13px] font-serif-zen tracking-widest flex items-center justify-center space-x-2 whitespace-nowrap">
                           <span className={`font-bold uppercase transition-colors duration-500 ${
                             currentTheme.isNight ? 'text-amber-200/90 drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]' : 'text-stone-700'
                           }`}>
@@ -2154,7 +2153,7 @@ export default function Game() {
                 style={{ transform: 'translateY(-40px)' }}
               >
 
-                <svg className="w-full h-auto max-h-[260px] sm:max-h-[300px] overflow-visible" viewBox="0 0 6292 1821" preserveAspectRatio="xMidYMid meet">
+                <svg className="w-full h-auto max-h-[220px] sm:max-h-[260px] md:max-h-[290px] overflow-visible" viewBox="0 0 6292 1821" preserveAspectRatio="xMidYMid meet">
                   <defs>
                     {/* Soft Celadon Glow for Completed Nodes */}
                     <radialGradient id="jadeGlow" cx="50%" cy="50%" r="50%">
@@ -2301,7 +2300,7 @@ export default function Game() {
               </div>
 
               {/* Stage Progress Info & Tone Input Buttons (Below the Path) */}
-              <div className="w-full flex flex-col items-center justify-center pt-2 pb-3 sm:pb-4 px-4 sm:px-8 select-none bg-gradient-to-t from-stone-950/80 via-stone-950/45 to-transparent">
+              <div className="w-full flex flex-col items-center justify-center pt-1 pb-5 sm:pb-7 px-4 sm:px-8 select-none bg-gradient-to-t from-stone-950/80 via-stone-950/45 to-transparent">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`stage-info-${currentStageIndex}`}
@@ -2331,7 +2330,7 @@ export default function Game() {
                 </AnimatePresence>
 
                 {/* Tone Input Buttons: Polished Jade River Stones with Yin-Yang */}
-                <div className="flex space-x-6 items-center justify-center pt-5 pb-0.5">
+                <div className="flex space-x-6 items-center justify-center pt-2.5 sm:pt-3.5 pb-1">
                 
                 {/* HIGHER TONE Stone */}
                 <div className="relative flex flex-col items-center">
