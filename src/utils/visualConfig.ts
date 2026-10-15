@@ -97,7 +97,7 @@ export const STAGE_PARTICLE_CONFIG = {
   stage3: {
     goldenSparks: {
       baseCount: 36, // Floating sacred embers
-      sizeRange: [2.2, 4.6] as [number, number],
+      sizeRange: [0.2, 1.0] as [number, number],
       opacityRange: [0.55, 0.90] as [number, number],
       durationRange: [6.5, 10.5] as [number, number],
       movementRandomness: 0.2,
