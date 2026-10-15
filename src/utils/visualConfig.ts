@@ -226,6 +226,17 @@ export const STAGE_PARTICLE_CONFIG = {
       blurRange: [1.5, 3.5] as [number, number],
       movementRandomness: 1.4,
       colors: ['#ffffff', '#f0fdf4'], // Pure White (#ffffff), Pale Greenish White (#f0fdf4)
+      shadowColor: 'rgba(255, 255, 255, 0.50)', // Soft white misty aura drop shadow
+      strokeColor: '#ffffff', // Delicate white wisp outline
+      strokeOpacity: 0.38, // 38% opacity on wisp contour strokes
+      gradientStops: [
+        { offset: '0%', color: '#ffffff', opacity: 0.08 },
+        { offset: '16%', color: '#ffffff', opacity: 0.86 },
+        { offset: '42%', color: '#f0fdf4', opacity: 0.95 },
+        { offset: '68%', color: '#ffffff', opacity: 0.90 },
+        { offset: '88%', color: '#f0fdf4', opacity: 0.82 },
+        { offset: '100%', color: '#ffffff', opacity: 0.12 },
+      ],
     },
   },
 
@@ -242,8 +253,29 @@ export const STAGE_PARTICLE_CONFIG = {
     },
   },
 
-  // Stage 3: Confronting the Buddha - Sacred Floating Embers
+  // Stage 3: Confronting the Buddha - Sacred Drifting Clouds & Floating Embers
   stage3: {
+    cloudWisps: {
+      count: 9, // Number of drifting horizontal cloud wisps
+      widthRange: [280, 450] as [number, number],
+      heightRange: [120, 190] as [number, number],
+      opacityRange: [0.52, 0.82] as [number, number], // Opacity: 52% - 82%
+      durationRange: [18, 50] as [number, number], // Drifting duration in seconds
+      blurRange: [1.5, 3.5] as [number, number],
+      movementRandomness: 1.3,
+      colors: ['#ffffff', '#fffbeb', '#fef9c3', '#fef08a'], // Pure White (#ffffff), Warm Cream (#fffbeb), Pale Gold Mist (#fef9c3), Radiant Gold (#fef08a)
+      shadowColor: 'rgba(253, 224, 71, 0.45)', // Golden halo aura drop shadow
+      strokeColor: '#fef08a', // Subtle golden edge highlight line
+      strokeOpacity: 0.36, // 36% opacity on wisp contour strokes
+      gradientStops: [
+        { offset: '0%', color: '#ffffff', opacity: 0.08 },
+        { offset: '16%', color: '#fffbeb', opacity: 0.88 },
+        { offset: '42%', color: '#fef9c3', opacity: 0.95 },
+        { offset: '68%', color: '#fef08a', opacity: 0.90 },
+        { offset: '88%', color: '#fef9c3', opacity: 0.82 },
+        { offset: '100%', color: '#ffffff', opacity: 0.12 },
+      ],
+    },
     goldenSparks: {
       baseCount: 36, // Floating sacred embers
       sizeRange: [0.2, 1.0] as [number, number],
@@ -519,6 +551,39 @@ export function getStage2Snowflakes(): ParticleItem[] {
     const variant = (randVar < 0.35 ? 1 : randVar < 0.7 ? 2 : 3) as 1 | 2 | 3;
 
     items.push({ x, size, opacity, dur, delay, variant });
+  }
+
+  return items;
+}
+
+/**
+ * Generate Stage 3 Mountain Cloud Wisps (Sacred Golden Enlightenment Clouds)
+ */
+export function getStage3CloudWisps(): CloudWispItem[] {
+  const cfg = STAGE_PARTICLE_CONFIG.stage3.cloudWisps;
+  const count = cfg.count;
+  const prng = createPRNG(302);
+  const items: CloudWispItem[] = [];
+
+  // Strictly confined to the top half of the game interface (3% to 46%)
+  const baseElevations = [4, 10, 16, 22, 28, 34, 40, 44];
+
+  for (let i = 0; i < count; i++) {
+    const rawY = baseElevations[i % baseElevations.length] + lerp(-1.5, 1.5, prng());
+    const y = +Math.min(46, Math.max(3, rawY)).toFixed(1);
+    const width = Math.round(lerp(cfg.widthRange[0], cfg.widthRange[1], prng()));
+    const height = Math.round(lerp(cfg.heightRange[0], cfg.heightRange[1], prng()));
+    const opacity = +(lerp(cfg.opacityRange[0], cfg.opacityRange[1], prng())).toFixed(2);
+
+    // Randomize speed with jitter based on movementRandomness
+    const speedJitter = lerp(0.72, 1.38, prng() * cfg.movementRandomness * GLOBAL_VISUAL_CONFIG.movementRandomness);
+    const baseDur = lerp(cfg.durationRange[0], cfg.durationRange[1], prng());
+    const dur = Math.max(12, Math.round((baseDur * speedJitter) / GLOBAL_VISUAL_CONFIG.speedMultiplier));
+    const delay = +(-lerp(0.5, dur * 0.95, prng())).toFixed(1);
+    const variant = ((i % 3) + 1) as 1 | 2 | 3;
+    const blur = Math.round(lerp(cfg.blurRange[0], cfg.blurRange[1], prng()));
+
+    items.push({ y, width, height, opacity, dur, delay, variant, blur });
   }
 
   return items;
