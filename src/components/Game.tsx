@@ -1004,7 +1004,7 @@ export default function Game() {
   const [selectedLoreStage, setSelectedLoreStage] = useState<StageInfo | null>(null);
   const [stageCelebration, setStageCelebration] = useState<{ stageId: number; name: string; realm: string } | null>(null);
   const [isMuted, setIsMuted] = useState(() => getIsMuted());
-  const [isFullscreen, setIsFullscreen] = useState(() => true);
+  const [isFullscreen, setIsFullscreen] = useState(() => isBrowserFullscreen());
   const [showAboutModal, setShowAboutModal] = useState(false);
 
   const handleToggleMute = useCallback(() => {
@@ -1091,6 +1091,7 @@ export default function Game() {
     const handleSyncFullscreen = () => {
       setIsFullscreen(isBrowserFullscreen());
     };
+    handleSyncFullscreen();
 
     document.addEventListener('fullscreenchange', handleSyncFullscreen);
     document.addEventListener('webkitfullscreenchange', handleSyncFullscreen);
@@ -1959,12 +1960,12 @@ export default function Game() {
                 {isFullscreen ? (
                   <>
                     <Minimize size={14} className="text-stone-800" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider font-serif-zen">Window (F11)</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider font-serif-zen">Window</span>
                   </>
                 ) : (
                   <>
                     <Maximize size={14} className="text-stone-800" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider font-serif-zen">Full Screen (F11)</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider font-serif-zen">Full Screen</span>
                   </>
                 )}
               </button>
