@@ -2471,11 +2471,11 @@ export default function Game() {
                   initial={{ scale: 0.95, y: 10 }}
                   animate={{ scale: 1, y: 0 }}
                   exit={{ scale: 0.95, y: 10 }}
-                  className="relative max-w-[480px] sm:max-w-[540px] w-full filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.4)] drop-shadow-[0_3px_8px_rgba(0,0,0,0.22)] flex flex-col items-center justify-center"
+                  className="relative max-w-sm sm:max-w-md w-full filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.4)] drop-shadow-[0_3px_8px_rgba(0,0,0,0.2)] flex flex-col items-center justify-center"
                 >
-                  {/* Scroll SVG Background */}
+                  {/* Custom Deckled Parchment Paper with subtle small tears */}
                   <img
-                    src="/svg/scroll.svg"
+                    src="/svg/parchment.svg"
                     alt=""
                     className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none z-0"
                   />
@@ -2483,42 +2483,42 @@ export default function Game() {
                   {/* Close button inside parchment */}
                   <button
                     onClick={handleCloseLore}
-                    className="absolute top-[6.5%] right-[16%] z-20 p-1 rounded-full bg-stone-700/10 hover:bg-stone-700/20 text-stone-700 hover:text-stone-900 transition-all cursor-pointer"
+                    className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 p-1.5 rounded-full bg-stone-700/10 hover:bg-stone-700/20 text-stone-700 hover:text-stone-900 transition-all cursor-pointer"
                     aria-label="Close"
                   >
-                    <X size={14} />
+                    <X size={15} />
                   </button>
 
-                  {/* Stage Lore Content Area fitted precisely within scroll paper */}
-                  <div className="relative z-10 w-full pt-[7.5%] pb-[12.5%] px-[17%] sm:px-[18%] flex flex-col text-left">
-                    <div className="text-[9px] sm:text-[9.5px] font-bold uppercase tracking-[0.25em] text-[#34705a] mb-0.5 font-serif-zen whitespace-nowrap">
+                  {/* Stage Lore Content Area */}
+                  <div className="relative z-10 w-full px-6 py-6 sm:px-8 sm:py-7 flex flex-col text-left">
+                    <div className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.25em] text-[#34705a] mb-1 font-serif-zen whitespace-nowrap">
                       {selectedLoreStage.realm} • Stage {selectedLoreStage.id} of 9
                     </div>
-                    <h3 className="text-base sm:text-lg font-bold text-stone-900 font-serif-zen mb-0.5 whitespace-nowrap leading-tight">
+                    <h3 className="text-xl sm:text-2xl font-bold text-stone-900 font-serif-zen mb-0.5 whitespace-nowrap leading-tight">
                       {selectedLoreStage.name}
                     </h3>
-                    <div className="text-[10.5px] sm:text-[11px] text-stone-600 font-serif-zen italic mb-2 whitespace-nowrap">
+                    <div className="text-xs text-stone-600 font-serif-zen italic mb-3 whitespace-nowrap">
                       ({selectedLoreStage.subtitle})
                     </div>
 
-                    <div className="space-y-1.5 text-[10.5px] sm:text-[11px] leading-snug sm:leading-normal text-stone-800 font-serif-zen">
+                    <div className="space-y-2.5 text-xs sm:text-[12.5px] leading-relaxed text-stone-800 font-serif-zen">
                       <div>
-                        <strong className="text-stone-900 uppercase tracking-wider text-[9px] sm:text-[9.5px] block mb-0.5">The Concept</strong>
+                        <strong className="text-stone-900 uppercase tracking-wider text-[10px] block mb-0.5">The Concept</strong>
                         <p>{selectedLoreStage.concept}</p>
                       </div>
                       <div>
-                        <strong className="text-[#a93226] uppercase tracking-wider text-[9px] sm:text-[9.5px] block mb-0.5">The Conflict</strong>
+                        <strong className="text-[#a93226] uppercase tracking-wider text-[10px] block mb-0.5">The Conflict</strong>
                         <p>{selectedLoreStage.conflict}</p>
                       </div>
                       <div>
-                        <strong className="text-[#275d49] uppercase tracking-wider text-[9px] sm:text-[9.5px] block mb-0.5">The Lesson</strong>
+                        <strong className="text-[#275d49] uppercase tracking-wider text-[10px] block mb-0.5">The Lesson</strong>
                         <p className="font-semibold text-stone-900">{selectedLoreStage.objective}</p>
                       </div>
                     </div>
 
                     <button
                       onClick={handleCloseLore}
-                      className="jade-stone mt-2.5 sm:mt-3 w-full py-1.5 sm:py-2 text-emerald-950 font-bold rounded-xl transition-all cursor-pointer text-[10.5px] sm:text-[11px] uppercase tracking-wider font-serif-zen shadow-sm"
+                      className="jade-stone mt-4 w-full py-2.5 text-emerald-950 font-bold rounded-xl transition-all cursor-pointer text-xs uppercase tracking-wider font-serif-zen shadow-sm"
                     >
                       Continue Your Journey...
                     </button>
