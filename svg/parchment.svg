@@ -1,90 +1,132 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 750" width="100%" height="100%" preserveAspectRatio="none">
   <defs>
-    <!-- Paper gradient for rich aged washi parchment tone -->
-    <radialGradient id="paperGrad" cx="45%" cy="40%" r="65%">
-      <stop offset="0%" stop-color="#faf5ec" />
-      <stop offset="55%" stop-color="#f3ebe0" />
-      <stop offset="85%" stop-color="#ede1ce" />
-      <stop offset="100%" stop-color="#dfcfb7" />
+    <!-- Rich aged washi paper tone with organic warm glow -->
+    <radialGradient id="paperGlow" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#fdfbf5" />
+      <stop offset="50%" stop-color="#f7f1e4" />
+      <stop offset="80%" stop-color="#efe3d0" />
+      <stop offset="100%" stop-color="#dfcfb5" />
     </radialGradient>
 
-    <!-- Subtle vignette shadow along the outer deckled perimeter -->
-    <linearGradient id="edgeBurnTop" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#cbb596" stop-opacity="0.45" />
-      <stop offset="100%" stop-color="#cbb596" stop-opacity="0" />
+    <!-- Edge weathering gradient -->
+    <linearGradient id="edgeBurnH" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#bda788" stop-opacity="0.35" />
+      <stop offset="5%" stop-color="#bda788" stop-opacity="0" />
+      <stop offset="95%" stop-color="#bda788" stop-opacity="0" />
+      <stop offset="100%" stop-color="#bda788" stop-opacity="0.35" />
     </linearGradient>
-    <linearGradient id="edgeBurnBottom" x1="0%" y1="100%" x2="0%" y2="0%">
-      <stop offset="0%" stop-color="#cbb596" stop-opacity="0.45" />
-      <stop offset="100%" stop-color="#cbb596" stop-opacity="0" />
+
+    <linearGradient id="edgeBurnV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#bda788" stop-opacity="0.35" />
+      <stop offset="5%" stop-color="#bda788" stop-opacity="0" />
+      <stop offset="95%" stop-color="#bda788" stop-opacity="0" />
+      <stop offset="100%" stop-color="#bda788" stop-opacity="0.35" />
     </linearGradient>
+
+    <!-- Subtle paper grain noise filter -->
+    <filter id="paperGrain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0.8  0 0 0 0 0.75  0 0 0 0 0.68  0 0 0 0.08 0" in="noise" result="coloredNoise" />
+      <feComposite operator="in" in2="SourceGraphic" />
+      <feBlend mode="multiply" in="SourceGraphic" result="blend" />
+    </filter>
   </defs>
 
-  <!-- Outer Aged Deckled Parchment Path with organic small tears and rough fiber cuts -->
+  <!-- Main Parchment Paper: Sharp, ragged antique corners with small natural tears and deckled edges -->
   <path
     d="
-      M 32 36
-      C 60 33, 95 38, 130 34
-      C 150 32, 165 37, 180 34
-      L 186 39 L 192 34
-      C 230 36, 275 32, 310 36
-      C 345 39, 370 33, 400 35
-      L 404 40 L 409 35
-      C 450 37, 490 33, 530 36
-      C 555 38, 565 44, 568 65
-      C 566 95, 571 130, 567 165
-      L 562 172 L 568 178
-      C 565 215, 570 250, 566 285
-      C 564 320, 569 355, 567 390
-      L 561 395 L 567 402
-      C 570 440, 565 480, 568 515
-      C 569 542, 554 564, 530 566
-      C 495 563, 460 568, 425 565
-      L 418 559 L 412 565
-      C 375 563, 340 567, 305 564
-      C 270 562, 235 567, 195 564
-      L 189 559 L 183 565
-      C 145 567, 110 563, 75 566
-      C 48 564, 34 548, 33 525
-      C 35 490, 31 455, 34 420
-      L 39 414 L 33 408
-      C 36 370, 31 335, 34 300
-      C 32 265, 37 230, 33 195
-      L 40 188 L 34 182
-      C 31 145, 36 105, 33 70
-      C 31 48, 42 37, 32 36
+      M 18,18
+      L 24,19 L 45,18 L 85,21 L 120,18 L 155,20
+      L 190,18 L 195,24 L 201,18 L 240,21 L 285,18
+      L 330,20 L 375,19 L 420,21 L 465,18 L 471,25 L 477,19
+      L 520,21 L 565,18 L 610,21 L 650,19 L 678,17
+      L 681,24 L 684,20 L 683,55 L 680,95 L 684,140
+      L 681,185 L 675,192 L 682,198 L 680,240 L 684,290
+      L 681,340 L 683,390 L 680,440 L 674,447 L 682,453
+      L 680,500 L 684,550 L 681,600 L 683,650 L 680,695
+      L 683,728 L 679,732 L 674,730
+      L 650,733 L 610,729 L 570,732 L 530,730 L 485,733
+      L 479,726 L 472,732 L 430,730 L 385,733 L 340,730
+      L 295,732 L 250,730 L 205,733 L 199,726 L 193,732
+      L 150,730 L 110,733 L 70,730 L 35,732 L 19,733
+      L 17,726 L 21,722 L 18,685 L 22,640 L 19,595
+      L 21,550 L 18,500 L 24,493 L 17,486 L 20,440
+      L 18,390 L 21,340 L 19,290 L 21,240 L 17,233 L 23,227
+      L 19,185 L 22,140 L 19,95 L 21,55 L 18,25
       Z
     "
-    fill="url(#paperGrad)"
-    stroke="#c3af94"
+    fill="url(#paperGlow)"
+    stroke="#bfa685"
     stroke-width="1.2"
-    stroke-linejoin="round"
+    stroke-linejoin="miter"
   />
 
-  <!-- Subtle inner edge darkening highlight for organic paper thickness -->
+  <!-- Shading overlay on the ragged perimeter -->
   <path
     d="
-      M 36 40
-      C 140 37, 320 37, 526 40
-      C 560 48, 562 180, 562 290
-      C 562 400, 560 520, 526 560
-      C 380 562, 190 562, 70 560
-      C 38 520, 38 400, 38 290
-      C 38 180, 38 52, 36 40
+      M 18,18
+      L 24,19 L 45,18 L 85,21 L 120,18 L 155,20
+      L 190,18 L 195,24 L 201,18 L 240,21 L 285,18
+      L 330,20 L 375,19 L 420,21 L 465,18 L 471,25 L 477,19
+      L 520,21 L 565,18 L 610,21 L 650,19 L 678,17
+      L 681,24 L 684,20 L 683,55 L 680,95 L 684,140
+      L 681,185 L 675,192 L 682,198 L 680,240 L 684,290
+      L 681,340 L 683,390 L 680,440 L 674,447 L 682,453
+      L 680,500 L 684,550 L 681,600 L 683,650 L 680,695
+      L 683,728 L 679,732 L 674,730
+      L 650,733 L 610,729 L 570,732 L 530,730 L 485,733
+      L 479,726 L 472,732 L 430,730 L 385,733 L 340,730
+      L 295,732 L 250,730 L 205,733 L 199,726 L 193,732
+      L 150,730 L 110,733 L 70,730 L 35,732 L 19,733
+      L 17,726 L 21,722 L 18,685 L 22,640 L 19,595
+      L 21,550 L 18,500 L 24,493 L 17,486 L 20,440
+      L 18,390 L 21,340 L 19,290 L 21,240 L 17,233 L 23,227
+      L 19,185 L 22,140 L 19,95 L 21,55 L 18,25
       Z
     "
-    fill="none"
-    stroke="#d8c5ab"
-    stroke-width="1"
+    fill="url(#edgeBurnH)"
+    opacity="0.75"
+  />
+
+  <path
+    d="
+      M 18,18
+      L 24,19 L 45,18 L 85,21 L 120,18 L 155,20
+      L 190,18 L 195,24 L 201,18 L 240,21 L 285,18
+      L 330,20 L 375,19 L 420,21 L 465,18 L 471,25 L 477,19
+      L 520,21 L 565,18 L 610,21 L 650,19 L 678,17
+      L 681,24 L 684,20 L 683,55 L 680,95 L 684,140
+      L 681,185 L 675,192 L 682,198 L 680,240 L 684,290
+      L 681,340 L 683,390 L 680,440 L 674,447 L 682,453
+      L 680,500 L 684,550 L 681,600 L 683,650 L 680,695
+      L 683,728 L 679,732 L 674,730
+      L 650,733 L 610,729 L 570,732 L 530,730 L 485,733
+      L 479,726 L 472,732 L 430,730 L 385,733 L 340,730
+      L 295,732 L 250,730 L 205,733 L 199,726 L 193,732
+      L 150,730 L 110,733 L 70,730 L 35,732 L 19,733
+      L 17,726 L 21,722 L 18,685 L 22,640 L 19,595
+      L 21,550 L 18,500 L 24,493 L 17,486 L 20,440
+      L 18,390 L 21,340 L 19,290 L 21,240 L 17,233 L 23,227
+      L 19,185 L 22,140 L 19,95 L 21,55 L 18,25
+      Z
+    "
+    fill="url(#edgeBurnV)"
     opacity="0.6"
   />
 
-  <!-- Faint aged ink edge accents for realism -->
-  <path d="M 183 34 L 186 39 L 192 34" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
-  <path d="M 400 35 L 404 40 L 409 35" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
-  <path d="M 567 165 L 562 172 L 568 178" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
-  <path d="M 567 390 L 561 395 L 567 402" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
-  <path d="M 425 565 L 418 559 L 412 565" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
-  <path d="M 195 564 L 189 559 L 183 565" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
-  <path d="M 34 420 L 39 414 L 33 408" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
-  <path d="M 33 195 L 40 188 L 34 182" stroke="#9e8467" stroke-width="0.8" fill="none" opacity="0.4" />
+  <!-- Subtle aged stress lines and fiber marks near paper tears -->
+  <path d="M 195,24 L 197,32" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+  <path d="M 471,25 L 469,33" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+  <path d="M 675,192 L 666,194" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+  <path d="M 674,447 L 665,448" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+  <path d="M 479,726 L 481,718" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+  <path d="M 199,726 L 197,718" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+  <path d="M 24,493 L 32,495" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+  <path d="M 17,233 L 26,234" stroke="#a08564" stroke-width="0.8" opacity="0.45" />
+
+  <!-- Corner paper creases -->
+  <path d="M 25,28 L 38,40" stroke="#b09879" stroke-width="0.7" opacity="0.3" />
+  <path d="M 672,28 L 658,42" stroke="#b09879" stroke-width="0.7" opacity="0.3" />
+  <path d="M 670,720 L 656,708" stroke="#b09879" stroke-width="0.7" opacity="0.3" />
+  <path d="M 28,720 L 42,706" stroke="#b09879" stroke-width="0.7" opacity="0.3" />
 </svg>

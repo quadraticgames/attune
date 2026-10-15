@@ -2471,9 +2471,9 @@ export default function Game() {
                   initial={{ scale: 0.95, y: 10 }}
                   animate={{ scale: 1, y: 0 }}
                   exit={{ scale: 0.95, y: 10 }}
-                  className="relative max-w-sm sm:max-w-md w-full filter drop-shadow-[0_16px_32px_rgba(0,0,0,0.4)] drop-shadow-[0_3px_8px_rgba(0,0,0,0.2)] flex flex-col items-center justify-center"
+                  className="relative max-w-[480px] sm:max-w-[580px] w-full filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)] drop-shadow-[0_4px_10px_rgba(0,0,0,0.22)] flex flex-col items-center justify-center"
                 >
-                  {/* Custom Deckled Parchment Paper with subtle small tears */}
+                  {/* Custom Deckled Parchment Paper with sharp torn corners and micro-tears */}
                   <img
                     src="/svg/parchment.svg"
                     alt=""
@@ -2483,25 +2483,25 @@ export default function Game() {
                   {/* Close button inside parchment */}
                   <button
                     onClick={handleCloseLore}
-                    className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 p-1.5 rounded-full bg-stone-700/10 hover:bg-stone-700/20 text-stone-700 hover:text-stone-900 transition-all cursor-pointer"
+                    className="absolute top-5 right-6 sm:top-6 sm:right-8 z-20 p-1.5 rounded-full bg-stone-700/10 hover:bg-stone-700/20 text-stone-700 hover:text-stone-900 transition-all cursor-pointer"
                     aria-label="Close"
                   >
                     <X size={15} />
                   </button>
 
-                  {/* Stage Lore Content Area */}
-                  <div className="relative z-10 w-full px-6 py-6 sm:px-8 sm:py-7 flex flex-col text-left">
-                    <div className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.25em] text-[#34705a] mb-1 font-serif-zen whitespace-nowrap">
+                  {/* Stage Lore Content Area with generous padding on all sides */}
+                  <div className="relative z-10 w-full px-8 py-8 sm:px-12 sm:py-10 flex flex-col text-left">
+                    <div className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.25em] text-[#34705a] mb-1 font-serif-zen whitespace-nowrap">
                       {selectedLoreStage.realm} • Stage {selectedLoreStage.id} of 9
                     </div>
                     <h3 className="text-xl sm:text-2xl font-bold text-stone-900 font-serif-zen mb-0.5 whitespace-nowrap leading-tight">
                       {selectedLoreStage.name}
                     </h3>
-                    <div className="text-xs text-stone-600 font-serif-zen italic mb-3 whitespace-nowrap">
+                    <div className="text-xs text-stone-600 font-serif-zen italic mb-3.5 whitespace-nowrap">
                       ({selectedLoreStage.subtitle})
                     </div>
 
-                    <div className="space-y-2.5 text-xs sm:text-[12.5px] leading-relaxed text-stone-800 font-serif-zen">
+                    <div className="space-y-3 text-xs sm:text-[13px] leading-relaxed text-stone-800 font-serif-zen">
                       <div>
                         <strong className="text-stone-900 uppercase tracking-wider text-[10px] block mb-0.5">The Concept</strong>
                         <p>{selectedLoreStage.concept}</p>
@@ -2518,7 +2518,7 @@ export default function Game() {
 
                     <button
                       onClick={handleCloseLore}
-                      className="jade-stone mt-4 w-full py-2.5 text-emerald-950 font-bold rounded-xl transition-all cursor-pointer text-xs uppercase tracking-wider font-serif-zen shadow-sm"
+                      className="jade-stone mt-5 w-full py-2.5 text-emerald-950 font-bold rounded-xl transition-all cursor-pointer text-xs uppercase tracking-wider font-serif-zen shadow-sm"
                     >
                       Continue Your Journey...
                     </button>
