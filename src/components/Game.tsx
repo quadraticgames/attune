@@ -1692,71 +1692,9 @@ export default function Game() {
   }, []);
 
   return (
-    <div className={`select-none transition-all duration-300 ${
-      isFullscreen
-        ? 'fixed inset-0 z-50 w-screen h-screen bg-[#12151c] flex flex-col items-center justify-center p-0 m-0 overflow-hidden'
-        : 'relative min-h-screen bg-twilight-zen flex flex-col items-center justify-center p-0 sm:p-3 md:p-4 overflow-hidden'
-    }`}>
-      
-      {/* Serene Background Landscape: Misty Mountain Ridges and Bamboo Silhouettes */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Soft Twilight Sky Glow */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#261f2d]/60 via-[#161a24]/40 to-transparent" />
-
-        {/* Tibet Scenic Panorama Outer Backdrop */}
-        <div 
-          className="absolute inset-0 opacity-40 bg-cover bg-bottom pointer-events-none filter contrast-125 brightness-95 saturate-95"
-          style={{ backgroundImage: `url('/svg/tibet.svg')` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#161a24]/80 via-transparent to-[#161a24]/30 pointer-events-none" />
-
-        {/* Misty Horizontal Fog Ribbons */}
-        <div className="absolute bottom-28 w-full h-24 bg-gradient-to-r from-transparent via-[#b5a9bc]/15 to-transparent blur-xl" />
-        <div className="absolute bottom-12 w-full h-16 bg-gradient-to-r from-transparent via-[#8fa3a8]/10 to-transparent blur-lg" />
-
-        {/* Left Bamboo Silhouette */}
-        <svg className="absolute -left-10 bottom-0 w-64 sm:w-80 h-[80%] opacity-75" viewBox="0 0 300 700" fill="none">
-          {/* Bamboo Culms */}
-          <path d="M60 700 L60 0 M58 200 L62 200 M58 380 L62 380 M58 540 L62 540" stroke="#0a0d12" strokeWidth="8" />
-          <path d="M110 700 L110 50 M108 260 L112 260 M108 430 L112 430 M108 590 L112 590" stroke="#0c0f14" strokeWidth="11" />
-          <path d="M160 700 L160 120 M158 310 L162 310 M158 490 L162 490" stroke="#090c10" strokeWidth="6" />
-          {/* Bamboo Leaves */}
-          <path d="M60 220 C80 200 120 215 140 210 C110 225 80 230 60 220 Z" fill="#090c10" />
-          <path d="M60 380 C30 360 0 380 -20 375 C10 385 40 395 60 380 Z" fill="#090c10" />
-          <path d="M110 270 C140 240 190 260 220 250 C180 270 140 280 110 270 Z" fill="#0b0e13" />
-          <path d="M110 440 C80 420 40 435 10 430 C50 445 80 455 110 440 Z" fill="#0b0e13" />
-          <path d="M160 320 C180 305 220 315 240 310 C210 325 180 330 160 320 Z" fill="#080b0f" />
-        </svg>
-
-        {/* Right Bamboo Silhouette */}
-        <svg className="absolute -right-10 bottom-0 w-64 sm:w-80 h-[80%] opacity-75" viewBox="0 0 300 700" fill="none">
-          <path d="M240 700 L240 0 M238 210 L242 210 M238 390 L242 390 M238 560 L242 560" stroke="#0a0d12" strokeWidth="9" />
-          <path d="M190 700 L190 70 M188 280 L192 280 M188 450 L192 450 M188 610 L192 610" stroke="#0c0f14" strokeWidth="12" />
-          <path d="M130 700 L130 140 M128 330 L132 330 M128 510 L132 510" stroke="#090c10" strokeWidth="6" />
-          {/* Bamboo Leaves */}
-          <path d="M240 230 C210 210 170 225 140 220 C180 235 210 240 240 230 Z" fill="#090c10" />
-          <path d="M190 290 C160 265 110 285 80 275 C120 295 160 305 190 290 Z" fill="#0b0e13" />
-          <path d="M190 460 C220 440 260 455 290 450 C250 465 220 475 190 460 Z" fill="#0b0e13" />
-          <path d="M130 340 C100 320 60 335 30 330 C70 345 100 355 130 340 Z" fill="#080b0f" />
-        </svg>
-      </div>
-
-      {/* Main Content Area */}
-      <div className={`relative z-10 w-full flex flex-col items-center transition-all duration-300 ${
-        isFullscreen ? 'max-w-none h-full w-full justify-center p-0 m-0' : 'max-w-[1240px] px-0 sm:px-2 md:px-4'
-      }`}>
-        
-        {/* Game Area Card Container */}
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className={`w-full flex flex-col items-center justify-between min-h-0 relative overflow-hidden shadow-2xl p-0 transition-all duration-300 ${
-            isFullscreen ? 'rounded-none border-none h-full min-h-screen w-full' : 'rounded-none sm:rounded-[2rem] md:rounded-[2.5rem] border border-stone-800/30'
-          }`}
-        >
-          {/* Full-Bleed Game Area Backdrop: Dynamic Stage Lighting, Sun/Moon, and Tibet Artwork covering the entire game area with NO side padding */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+    <div className="select-none fixed inset-0 w-screen h-screen bg-[#12151c] flex flex-col items-center justify-between p-0 m-0 overflow-hidden">
+      {/* Full-Bleed Game Area Backdrop: Dynamic Stage Lighting, Sun/Moon, and Tibet Artwork covering the entire game area with NO side padding */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
             {/* Sky Background Gradient */}
             <div 
               className="absolute inset-0 transition-all duration-1000 pointer-events-none"
@@ -2710,9 +2648,6 @@ export default function Game() {
               </motion.div>
             )}
           </AnimatePresence>
-
-        </motion.div>
-      </div>
 
     </div>
   );
