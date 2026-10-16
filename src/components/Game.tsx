@@ -19,6 +19,9 @@ import {
   getStage6NightStars,
   getStage7BambooLeaves,
   getStage7AquaRiverConfig,
+  getStage7Raindrops,
+  getStage7LightningConfig,
+  RaindropItem,
   getStage8NightStars,
   getStage9SpiritMotes,
   getStage9Snowflakes,
@@ -144,6 +147,9 @@ interface CustomCSSProperties extends React.CSSProperties {
   '--star-glow'?: string;
   '--wisp-opacity'?: number;
   '--particle-opacity'?: number;
+  '--rain-opacity'?: number;
+  '--rain-dur'?: string;
+  '--lightning-flash-opacity'?: number;
 }
 
 const LANTERN_EMBERS = getStage5LanternEmbers();
@@ -464,8 +470,158 @@ const FALLING_SNOWFLAKES = getStage2Snowflakes();
 const GOLDEN_SPARKS = getStage3GoldenSparks();
 const BLOSSOM_PETALS = getStage4BlossomPetals();
 const BAMBOO_LEAVES = getStage7BambooLeaves();
+const STAGE_7_RAINDROPS = getStage7Raindrops();
 const SPIRIT_MOTES = getStage9SpiritMotes();
 const STAGE_9_SNOWFLAKES = getStage9Snowflakes();
+
+// Stage 7: The Ferryman’s Disciple - Monsoonal Slanted Rain & Occasional Sky Lightning Strikes
+function StageSevenRainAndLightning() {
+  const lightningCfg = getStage7LightningConfig();
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+      {/* 1. Occasional Sky Illumination Flash 1 (11s coprime cycle, cyan-white radiance wash) */}
+      {lightningCfg.enabled && (
+        <div
+          className="absolute inset-0 anim-lightning-flash-1 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 130% 90% at 35% 0%, rgba(224, 242, 254, 0.85) 0%, rgba(56, 189, 248, 0.45) 45%, transparent 75%)',
+            mixBlendMode: 'screen',
+            '--lightning-flash-opacity': lightningCfg.skyFlashOpacity,
+          } as CustomCSSProperties}
+        />
+      )}
+
+      {/* 2. Occasional Sky Illumination Flash 2 (17s coprime cycle, distant celestial storm wash) */}
+      {lightningCfg.enabled && (
+        <div
+          className="absolute inset-0 anim-lightning-flash-2 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse 120% 80% at 75% 0%, rgba(240, 249, 255, 0.80) 0%, rgba(14, 165, 233, 0.35) 50%, transparent 80%)',
+            mixBlendMode: 'screen',
+            '--lightning-flash-opacity': lightningCfg.skyFlashOpacity * 0.9,
+          } as CustomCSSProperties}
+        />
+      )}
+
+      {/* 3. Occasional Jagged Lightning Bolt 1 (11s cycle - strikes down near sacred river) */}
+      {lightningCfg.enabled && (
+        <div
+          className="absolute top-0 left-[24%] w-[260px] h-[75vh] anim-lightning-bolt-1 pointer-events-none"
+          style={{
+            filter: `drop-shadow(0 0 8px ${lightningCfg.glowColor}) drop-shadow(0 0 20px ${lightningCfg.glowColor})`,
+          }}
+        >
+          <svg viewBox="0 0 200 600" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+            {/* Outer Cyan Electric Glow */}
+            <path
+              d="M 110 0 L 100 95 L 125 105 L 85 240 L 115 255 L 70 410 L 95 425 L 45 580"
+              fill="none"
+              stroke={lightningCfg.glowColor}
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.8"
+            />
+            {/* Inner White Core Bolt */}
+            <path
+              d="M 110 0 L 100 95 L 125 105 L 85 240 L 115 255 L 70 410 L 95 425 L 45 580"
+              fill="none"
+              stroke={lightningCfg.boltColor}
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Fork Branch 1 */}
+            <path
+              d="M 100 95 L 60 170 L 40 220"
+              fill="none"
+              stroke={lightningCfg.glowColor}
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.65"
+            />
+            {/* Fork Branch 2 */}
+            <path
+              d="M 85 240 L 140 310 L 160 360"
+              fill="none"
+              stroke={lightningCfg.glowColor}
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.65"
+            />
+          </svg>
+        </div>
+      )}
+
+      {/* 4. Occasional Jagged Lightning Bolt 2 (17s cycle - strikes distant river bend horizon) */}
+      {lightningCfg.enabled && (
+        <div
+          className="absolute top-0 right-[22%] w-[220px] h-[65vh] anim-lightning-bolt-2 pointer-events-none"
+          style={{
+            filter: `drop-shadow(0 0 7px ${lightningCfg.glowColor}) drop-shadow(0 0 16px ${lightningCfg.glowColor})`,
+          }}
+        >
+          <svg viewBox="0 0 200 500" className="w-full h-full overflow-visible" preserveAspectRatio="none">
+            {/* Outer Cyan Electric Glow */}
+            <path
+              d="M 90 0 L 115 80 L 80 160 L 120 180 L 75 320 L 105 340 L 60 480"
+              fill="none"
+              stroke={lightningCfg.glowColor}
+              strokeWidth="4.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.75"
+            />
+            {/* Inner White Core Bolt */}
+            <path
+              d="M 90 0 L 115 80 L 80 160 L 120 180 L 75 320 L 105 340 L 60 480"
+              fill="none"
+              stroke={lightningCfg.boltColor}
+              strokeWidth="2.0"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Fork Branch */}
+            <path
+              d="M 80 160 L 35 230 L 20 270"
+              fill="none"
+              stroke={lightningCfg.glowColor}
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              opacity="0.6"
+            />
+          </svg>
+        </div>
+      )}
+
+      {/* 5. Wind-Slanted Monsoonal Rain Streaks */}
+      {STAGE_7_RAINDROPS.map((drop) => (
+        <div
+          key={`rain-${drop.id}`}
+          className="absolute anim-raindrop pointer-events-none"
+          style={{
+            left: `${drop.x}%`,
+            top: 0,
+            width: `${drop.width}px`,
+            height: `${drop.length}px`,
+            transform: 'rotate(-13deg)',
+            transformOrigin: 'top center',
+            background: `linear-gradient(to bottom, transparent 0%, ${drop.color} 35%, #ffffff 100%)`,
+            opacity: drop.opacity,
+            '--rain-opacity': drop.opacity,
+            '--rain-dur': `${drop.dur}s`,
+            animationDuration: `${drop.dur}s`,
+            animationDelay: `${drop.delay}s`,
+            boxShadow: `0 0 2px ${drop.color}`,
+          } as CustomCSSProperties}
+        />
+      ))}
+    </div>
+  );
+}
 
 // Stage 7: The Ferryman’s Disciple - Dedicated Aqua Blue River Atmosphere Overlay
 function StageSevenAquaRiverOverlay() {
@@ -669,6 +825,10 @@ function StageAtmosphericParticles({ stageId }: { stageId: number }) {
     case 7:
       return (
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          {/* Falling Monsoon Rain & Occasional Sky Lightning Strikes */}
+          <StageSevenRainAndLightning />
+
+          {/* Wind-Borne Bamboo Leaves */}
           {BAMBOO_LEAVES.map((leaf, idx) => (
             <div
               key={idx}

@@ -345,12 +345,29 @@ export const STAGE_PARTICLE_CONFIG = {
     },
   },
 
-  // Stage 7: The Ferryman’s Disciple - Sacred Flowing Aqua River & Bamboo Dew
+  // Stage 7: The Ferryman’s Disciple - Sacred Flowing River Storm, Rain & Occasional Lightning
   stage7: {
+    rain: {
+      baseCount: 85, // Number of falling rain streaks
+      lengthRange: [24, 46] as [number, number], // Raindrop streak length in px
+      widthRange: [1.0, 1.8] as [number, number], // Raindrop width in px
+      angleDeg: -13, // Diagonal wind slant angle in degrees (-13deg)
+      durationRange: [0.65, 1.15] as [number, number], // Fast fall duration in seconds
+      opacityRange: [0.35, 0.75] as [number, number], // Opacity: 35% - 75%
+      colors: ['#bae6fd', '#e0f2fe', '#ffffff', '#7dd3fc'], // Crisp rain reflections (#bae6fd, #e0f2fe, #ffffff, #7dd3fc)
+    },
+    lightning: {
+      enabled: true,
+      cycleDur1: 11, // Primary river strike cycle in seconds
+      cycleDur2: 17, // Secondary horizon fork strike cycle in seconds
+      skyFlashOpacity: 0.72, // Peak illumination opacity: 72%
+      boltColor: '#ffffff', // Pure white core lightning bolt
+      glowColor: '#38bdf8', // Electric cyan/blue halo flare (#38bdf8)
+    },
     bambooLeaves: {
-      baseCount: 24, // Drifting bamboo leaves
-      sizeRange: [6.0, 8.2] as [number, number],
-      opacityRange: [0.50, 0.70] as [number, number], // Opacity: 50% - 70%
+      baseCount: 16, // Occasional wind-borne bamboo leaves swept across the rain
+      sizeRange: [5.5, 7.8] as [number, number],
+      opacityRange: [0.40, 0.65] as [number, number], // Opacity: 40% - 65%
       durationRange: [8.6, 10.8] as [number, number],
       movementRandomness: 1.25,
       colors: ['#38bdf8', '#67e8f9', '#22d3ee', '#a7f3d0', '#34d399'], // Sky Aqua (#38bdf8), Luminous Cyan (#67e8f9), Teal Water (#22d3ee), Soft Mint (#a7f3d0), Fresh Bamboo Green (#34d399)
@@ -453,6 +470,17 @@ export type HorizonBirdItem = {
   flightDelay: number; // seconds (negative for immediate presence)
   wingFlapDur: number; // seconds
   wingFlapDelay: number; // seconds
+};
+
+export type RaindropItem = {
+  id: number;
+  x: number;
+  length: number;
+  width: number;
+  dur: number;
+  delay: number;
+  opacity: number;
+  color: string;
 };
 
 export type HeatStreakItem = {
@@ -818,6 +846,38 @@ export function getStage7BambooLeaves(): ParticleItem[] {
   }
 
   return items;
+}
+
+/**
+ * Generate Stage 7 Monsoonal Falling Raindrops
+ */
+export function getStage7Raindrops(): RaindropItem[] {
+  const cfg = STAGE_PARTICLE_CONFIG.stage7.rain;
+  const count = Math.round(cfg.baseCount * GLOBAL_VISUAL_CONFIG.densityMultiplier);
+  const prng = createPRNG(707);
+  const items: RaindropItem[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const x = Math.round(lerp(0, 100, (i + prng() * 0.95) / count));
+    const length = +(lerp(cfg.lengthRange[0], cfg.lengthRange[1], prng()) * GLOBAL_VISUAL_CONFIG.sizeMultiplier).toFixed(1);
+    const width = +(lerp(cfg.widthRange[0], cfg.widthRange[1], prng())).toFixed(1);
+    const opacity = +(lerp(cfg.opacityRange[0], cfg.opacityRange[1], prng())).toFixed(2);
+    const speedJitter = lerp(0.85, 1.2, prng());
+    const dur = +(lerp(cfg.durationRange[0], cfg.durationRange[1], prng()) * speedJitter / GLOBAL_VISUAL_CONFIG.speedMultiplier).toFixed(2);
+    const delay = +(-lerp(0.1, dur * 0.95, prng())).toFixed(2);
+    const color = cfg.colors[Math.floor(prng() * cfg.colors.length)];
+
+    items.push({ id: i, x, length, width, dur, delay, opacity, color });
+  }
+
+  return items;
+}
+
+/**
+ * Stage 7 Lightning Configuration Getter
+ */
+export function getStage7LightningConfig() {
+  return STAGE_PARTICLE_CONFIG.stage7.lightning;
 }
 
 /**
