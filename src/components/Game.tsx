@@ -6,12 +6,14 @@ import {
   GLOBAL_VISUAL_CONFIG,
   GlowingStarItem,
   CloudWispItem,
+  HorizonBirdItem,
   STAGE_PARTICLE_CONFIG,
   getStage1MistMotes,
   getStage1CloudWisps,
   getStage2Snowflakes,
   getStage3GoldenSparks,
   getStage3CloudWisps,
+  getStage3HorizonBirds,
   getStage4BlossomPetals,
   getStage5LanternEmbers,
   getStage6NightStars,
@@ -369,6 +371,75 @@ function StageThreeCloudWisps() {
   );
 }
 
+const HORIZON_BIRDS = getStage3HorizonBirds();
+
+function StageThreeHorizonBirds() {
+  const cfg = STAGE_PARTICLE_CONFIG.stage3.horizonBirds;
+  if (!cfg || cfg.count === 0) return null;
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+      {HORIZON_BIRDS.map((bird) => {
+        const flightClass =
+          bird.flightPath === 1
+            ? 'anim-bird-flight-1'
+            : bird.flightPath === 2
+            ? 'anim-bird-flight-2'
+            : 'anim-bird-flight-3';
+
+        return (
+          <div
+            key={bird.id}
+            className={`absolute top-0 left-0 pointer-events-none ${flightClass}`}
+            style={{
+              '--flock-offset-x': `${bird.offsetX}vw`,
+              '--flock-offset-y': `${bird.offsetY}vh`,
+              '--bird-scale': bird.scale,
+              '--bird-opacity': bird.opacity,
+              '--bird-flight-dur': `${bird.flightDur}s`,
+              '--wing-flap-dur': `${bird.wingFlapDur}s`,
+              animationDelay: `${bird.flightDelay}s`,
+            } as CustomCSSProperties}
+          >
+            {/* Sacred Crane SVG with Flapping Wings and Streamlined Body */}
+            <svg
+              viewBox="-22 -15 44 30"
+              className="w-10 h-7 overflow-visible pointer-events-none"
+              style={{
+                filter: `drop-shadow(0 1px 3px ${cfg.rimGlow || 'rgba(253, 224, 71, 0.4)'})`,
+              }}
+            >
+              {/* Left Wing (Flaps up/down) */}
+              <g className="anim-bird-wing-left" style={{ animationDelay: `${bird.wingFlapDelay}s` }}>
+                <path
+                  d="M -1 -1 C -6 -7, -13 -12, -21 -13 C -15 -5, -9 1, -1 3 Z"
+                  fill={cfg.color}
+                />
+              </g>
+
+              {/* Right Wing (Flaps up/down) */}
+              <g className="anim-bird-wing-right" style={{ animationDelay: `${bird.wingFlapDelay}s` }}>
+                <path
+                  d="M 1 -1 C 6 -7, 13 -12, 21 -13 C 15 -5, 9 1, 1 3 Z"
+                  fill={cfg.color}
+                />
+              </g>
+
+              {/* Slender Crane Body & Streamlined Head */}
+              <g className="anim-bird-body" style={{ animationDelay: `${bird.wingFlapDelay}s` }}>
+                <path
+                  d="M 0 -9 C 1 -5, 1.5 -1, 1 4 C 0.5 8, 0 13, 0 13 C 0 13, -0.5 8, -1 4 C -1.5 -1, -1 -5, 0 -9 Z"
+                  fill={cfg.color}
+                />
+              </g>
+            </svg>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 const MIST_MOTES = getStage1MistMotes();
 const FALLING_SNOWFLAKES = getStage2Snowflakes();
 const GOLDEN_SPARKS = getStage3GoldenSparks();
@@ -503,6 +574,9 @@ function StageAtmosphericParticles({ stageId }: { stageId: number }) {
     case 3:
       return (
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          {/* Sacred Horizon Birds Flapping & Disappearing into Horizon */}
+          <StageThreeHorizonBirds />
+
           {/* Floating Sacred Embers */}
           {GOLDEN_SPARKS.map((spark, idx) => (
             <div

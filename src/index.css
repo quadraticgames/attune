@@ -606,78 +606,137 @@ body {
 }
 
 /* =========================================================================
-   STAGE 3: HEAT MOTION BLUR & SHIMMER
+   STAGE 3: SACRED HORIZON BIRDS FLAPPING & DISAPPEARING INTO HORIZON
    ========================================================================= */
-@keyframes heatHazeRise-1 {
-  0% {
-    transform: translate3d(0, 14px, 0) scaleY(1) skewX(0deg);
-    opacity: 0.15;
-  }
-  25% {
-    transform: translate3d(3px, -10px, 0) scaleY(1.22) skewX(1.4deg);
-    opacity: 0.35;
+@keyframes birdWingFlapLeft {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
   }
   50% {
-    transform: translate3d(-4px, -32px, 0) scaleY(1.36) skewX(-1.6deg);
-    opacity: 0.48;
+    transform: rotate(40deg) scaleY(0.32);
+  }
+}
+
+@keyframes birdWingFlapRight {
+  0%, 100% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(-40deg) scaleY(0.32);
+  }
+}
+
+@keyframes birdBodyBob {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.anim-bird-wing-left {
+  transform-origin: 0px 0px;
+  animation: birdWingFlapLeft var(--wing-flap-dur, 0.44s) ease-in-out infinite;
+  will-change: transform;
+}
+
+.anim-bird-wing-right {
+  transform-origin: 0px 0px;
+  animation: birdWingFlapRight var(--wing-flap-dur, 0.44s) ease-in-out infinite;
+  will-change: transform;
+}
+
+.anim-bird-body {
+  animation: birdBodyBob var(--wing-flap-dur, 0.44s) ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Flight Path 1: Ascending V-formation flock soaring diagonally across the golden sky toward the horizon */
+@keyframes birdFlightPath-1 {
+  0% {
+    transform: translate3d(calc(var(--flock-offset-x, 0vw) - 6vw), calc(var(--flock-offset-y, 0vh) + 64vh), 0) scale(var(--bird-scale, 1)) rotate(14deg);
+    opacity: 0;
+    filter: blur(0px);
+  }
+  8% {
+    opacity: var(--bird-opacity, 0.85);
+  }
+  68% {
+    opacity: calc(var(--bird-opacity, 0.85) * 0.9);
+  }
+  88% {
+    opacity: 0.35;
+    filter: blur(0.8px);
+  }
+  100% {
+    transform: translate3d(calc(var(--flock-offset-x, 0vw) + 82vw), calc(var(--flock-offset-y, 0vh) + 16vh), 0) scale(0.12) rotate(8deg);
+    opacity: 0;
+    filter: blur(2.5px);
+  }
+}
+
+/* Flight Path 2: Mid-altitude diagonal glide crossing toward the celestial sun */
+@keyframes birdFlightPath-2 {
+  0% {
+    transform: translate3d(calc(var(--flock-offset-x, 0vw) - 10vw), calc(var(--flock-offset-y, 0vh) + 52vh), 0) scale(var(--bird-scale, 0.85)) rotate(16deg);
+    opacity: 0;
+    filter: blur(0px);
+  }
+  10% {
+    opacity: var(--bird-opacity, 0.82);
+  }
+  70% {
+    opacity: calc(var(--bird-opacity, 0.82) * 0.85);
+  }
+  90% {
+    opacity: 0.3;
+    filter: blur(0.9px);
+  }
+  100% {
+    transform: translate3d(calc(var(--flock-offset-x, 0vw) + 74vw), calc(var(--flock-offset-y, 0vh) + 12vh), 0) scale(0.10) rotate(10deg);
+    opacity: 0;
+    filter: blur(2.8px);
+  }
+}
+
+/* Flight Path 3: Distant high echelon gliding deep into the far mountain gap */
+@keyframes birdFlightPath-3 {
+  0% {
+    transform: translate3d(calc(var(--flock-offset-x, 0vw) - 8vw), calc(var(--flock-offset-y, 0vh) + 42vh), 0) scale(var(--bird-scale, 0.72)) rotate(12deg);
+    opacity: 0;
+    filter: blur(0px);
+  }
+  12% {
+    opacity: var(--bird-opacity, 0.78);
   }
   75% {
-    transform: translate3d(3px, -52px, 0) scaleY(1.2) skewX(0.9deg);
-    opacity: 0.3;
+    opacity: calc(var(--bird-opacity, 0.78) * 0.8);
+  }
+  92% {
+    opacity: 0.22;
+    filter: blur(1.1px);
   }
   100% {
-    transform: translate3d(0, -72px, 0) scaleY(1) skewX(0deg);
-    opacity: 0.12;
+    transform: translate3d(calc(var(--flock-offset-x, 0vw) + 68vw), calc(var(--flock-offset-y, 0vh) + 18vh), 0) scale(0.08) rotate(6deg);
+    opacity: 0;
+    filter: blur(3px);
   }
 }
 
-@keyframes heatHazeRise-2 {
-  0% {
-    transform: translate3d(0, 10px, 0) scaleY(1) skewX(0deg);
-    opacity: 0.18;
-  }
-  30% {
-    transform: translate3d(-4px, -16px, 0) scaleY(1.28) skewX(-1.5deg);
-    opacity: 0.4;
-  }
-  60% {
-    transform: translate3d(5px, -38px, 0) scaleY(1.38) skewX(1.3deg);
-    opacity: 0.46;
-  }
-  85% {
-    transform: translate3d(-3px, -58px, 0) scaleY(1.22) skewX(-0.8deg);
-    opacity: 0.28;
-  }
-  100% {
-    transform: translate3d(0, -78px, 0) scaleY(1) skewX(0deg);
-    opacity: 0.15;
-  }
-}
-
-@keyframes heatFlutterPulse {
-  0%, 100% {
-    filter: blur(1.5px) contrast(1.05);
-    opacity: 0.25;
-  }
-  50% {
-    filter: blur(3px) contrast(1.15);
-    opacity: 0.48;
-  }
-}
-
-.anim-heat-shimmer-1 {
-  animation: heatHazeRise-1 4.5s ease-in-out infinite;
+.anim-bird-flight-1 {
+  animation: birdFlightPath-1 var(--bird-flight-dur, 22s) linear infinite;
   will-change: transform, opacity;
 }
 
-.anim-heat-shimmer-2 {
-  animation: heatHazeRise-2 5.4s ease-in-out infinite;
+.anim-bird-flight-2 {
+  animation: birdFlightPath-2 var(--bird-flight-dur, 25s) linear infinite;
   will-change: transform, opacity;
 }
 
-.anim-heat-flutter {
-  animation: heatFlutterPulse 2.8s ease-in-out infinite;
-  will-change: filter, opacity;
+.anim-bird-flight-3 {
+  animation: birdFlightPath-3 var(--bird-flight-dur, 28s) linear infinite;
+  will-change: transform, opacity;
 }
 
 /* =========================================================================

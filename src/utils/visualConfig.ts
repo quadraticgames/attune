@@ -253,8 +253,19 @@ export const STAGE_PARTICLE_CONFIG = {
     },
   },
 
-  // Stage 3: Confronting the Buddha - Sacred Drifting Clouds & Floating Embers
+  // Stage 3: Confronting the Buddha - Sacred Drifting Clouds, Horizon Birds & Floating Embers
   stage3: {
+    // Sacred Horizon Birds (Flying through the air, flapping wings, vanishing into distant horizon)
+    horizonBirds: {
+      count: 7, // Total flying cranes across formation and solitary paths
+      flightDurationRange: [20, 28] as [number, number], // Flight crossing duration in seconds
+      wingFlapDurationRange: [0.40, 0.48] as [number, number], // Wing flap speed in seconds
+      scaleRange: [0.72, 1.15] as [number, number], // Starting bird scale
+      endScale: 0.12, // Vanishing scale at horizon
+      opacityRange: [0.72, 0.88] as [number, number], // 72% - 88% opacity
+      color: '#26201b', // Sumi-e dark charcoal ink silhouette (#26201b)
+      rimGlow: 'rgba(253, 224, 71, 0.40)', // Subtle golden enlightenment rim-light from sacred sun
+    },
     cloudWisps: {
       count: 9, // Number of drifting horizontal cloud wisps
       widthRange: [280, 450] as [number, number],
@@ -431,6 +442,19 @@ export type CloudWispItem = {
   blur: number;
 };
 
+export type HorizonBirdItem = {
+  id: number;
+  flightPath: 1 | 2 | 3;
+  offsetX: number; // vw offset in flock formation
+  offsetY: number; // vh offset in flock formation
+  scale: number;   // initial bird scale
+  opacity: number; // peak flight opacity
+  flightDur: number; // seconds
+  flightDelay: number; // seconds (negative for immediate presence)
+  wingFlapDur: number; // seconds
+  wingFlapDelay: number; // seconds
+};
+
 export type HeatStreakItem = {
   x: number;
   width: number;
@@ -584,6 +608,55 @@ export function getStage3CloudWisps(): CloudWispItem[] {
     const blur = Math.round(lerp(cfg.blurRange[0], cfg.blurRange[1], prng()));
 
     items.push({ y, width, height, opacity, dur, delay, variant, blur });
+  }
+
+  return items;
+}
+
+/**
+ * Generate Stage 3 Horizon Birds (Sacred flying cranes vanishing into the horizon)
+ */
+export function getStage3HorizonBirds(): HorizonBirdItem[] {
+  const cfg = STAGE_PARTICLE_CONFIG.stage3.horizonBirds;
+  const count = cfg.count;
+  const prng = createPRNG(505);
+  const items: HorizonBirdItem[] = [];
+
+  // Flock formation presets:
+  // Birds 0-3: Classic V-formation / echelon flock ascending toward horizon
+  // Birds 4-5: Mid-altitude soaring pair
+  // Bird 6: Solitary crane gliding toward the sacred mountain peaks
+  const flockPresets: Array<{ flightPath: 1 | 2 | 3; offsetX: number; offsetY: number; baseDelay: number }> = [
+    { flightPath: 1, offsetX: 0, offsetY: 0, baseDelay: -4.0 },       // Lead crane
+    { flightPath: 1, offsetX: -2.8, offsetY: 3.2, baseDelay: -4.6 },   // Left wingman
+    { flightPath: 1, offsetX: -3.2, offsetY: -2.6, baseDelay: -4.8 },  // Right wingman
+    { flightPath: 1, offsetX: -5.8, offsetY: 5.8, baseDelay: -5.4 },   // Trailing echelon
+    { flightPath: 2, offsetX: 0, offsetY: 0, baseDelay: -14.2 },      // High solitary crane
+    { flightPath: 2, offsetX: -3.5, offsetY: 3.5, baseDelay: -15.1 },  // Companion pair
+    { flightPath: 3, offsetX: 0, offsetY: 0, baseDelay: -8.5 },       // Distant valley glider
+  ];
+
+  for (let i = 0; i < count; i++) {
+    const preset = flockPresets[i % flockPresets.length];
+    const scale = +(lerp(cfg.scaleRange[0], cfg.scaleRange[1], (count - i) / count)).toFixed(2);
+    const opacity = +(lerp(cfg.opacityRange[0], cfg.opacityRange[1], prng())).toFixed(2);
+    const flightDur = Math.round(lerp(cfg.flightDurationRange[0], cfg.flightDurationRange[1], prng()));
+    const flightDelay = +(preset.baseDelay + lerp(-0.3, 0.3, prng())).toFixed(1);
+    const wingFlapDur = +(lerp(cfg.wingFlapDurationRange[0], cfg.wingFlapDurationRange[1], prng())).toFixed(2);
+    const wingFlapDelay = +(-lerp(0.02, wingFlapDur * 0.8, prng())).toFixed(2);
+
+    items.push({
+      id: i + 1,
+      flightPath: preset.flightPath,
+      offsetX: preset.offsetX,
+      offsetY: preset.offsetY,
+      scale,
+      opacity,
+      flightDur,
+      flightDelay,
+      wingFlapDur,
+      wingFlapDelay,
+    });
   }
 
   return items;
