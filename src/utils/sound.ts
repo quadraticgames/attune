@@ -343,27 +343,20 @@ export const playWrongNote = () => {
 
 export const playStageFanfare = () => {
   if (!chimeSynth) return;
-  // A lush, ascending pentatonic bell fanfare that resonates in the temple reverb
+  // Meditative Zen temple wind chime: a slow, breathing open-fifth progression
+  // that resonates quietly across the mountain valley with no game-show fanfare.
   const now = Tone.now();
   const melody = [
-    { note: 'D5', delay: 0.0, dur: '0.4', vel: 0.7 },
-    { note: 'G5', delay: 0.12, dur: '0.4', vel: 0.75 },
-    { note: 'A5', delay: 0.24, dur: '0.4', vel: 0.8 },
-    { note: 'C6', delay: 0.38, dur: '0.5', vel: 0.85 },
-    { note: 'D6', delay: 0.52, dur: '0.6', vel: 0.9 },
-    { note: 'G6', delay: 0.68, dur: '1.2', vel: 0.95 },
+    { note: 'D4', delay: 0.0, dur: '1.2', vel: 0.55 },   // Deep grounding bronze bell
+    { note: 'A4', delay: 0.38, dur: '1.0', vel: 0.50 },  // Pure meditative fifth
+    { note: 'D5', delay: 0.82, dur: '1.2', vel: 0.46 },  // Gentle singing chime
+    { note: 'E5', delay: 1.32, dur: '1.4', vel: 0.42 },  // Ethereal suspended harmony
+    { note: 'A5', delay: 1.86, dur: '2.4', vel: 0.38 },  // Celestial high bell dissolving into reverb
   ];
 
   melody.forEach(({ note, delay, dur, vel }) => {
     chimeSynth?.triggerAttackRelease(note, dur, now + delay, vel);
   });
-
-  // Resonant golden chord swell to crown the progression
-  setTimeout(() => {
-    if (chimeSynth) {
-      chimeSynth.triggerAttackRelease(['G5', 'B5', 'D6', 'G6'], '2.2', undefined, 0.75);
-    }
-  }, 820);
 };
 
 // Audio pool for instantaneous responsive button clicks
