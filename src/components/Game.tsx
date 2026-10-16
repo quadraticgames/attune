@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, RotateCcw, Sparkles, Check, X, BookOpen, Volume2, VolumeX, Brain, Wind, Maximize, Minimize, ExternalLink } from 'lucide-react';
-import { playCorrectNote, playWrongNote, initializeAudio, startDrone, playStageFanfare, toggleMute, getIsMuted, playClickSound } from '../utils/sound';
+import { playCorrectNote, playWrongNote, initializeAudio, startDrone, playStageFanfare, toggleMute, getIsMuted, playClickSound, playEnlightenmentCeremony, playSingingBowlNote } from '../utils/sound';
 import {
   GLOBAL_VISUAL_CONFIG,
   GlowingStarItem,
@@ -141,6 +141,18 @@ const STAGES: StageInfo[] = [
 ];
 
 const TOTAL_PUZZLES_TO_ENLIGHTENMENT = 27;
+
+const CELESTIAL_BELLS = [
+  { stage: 1, note: 'D3', label: '1', name: 'Departure' },
+  { stage: 2, note: 'E3', label: '2', name: 'Ascetics' },
+  { stage: 3, note: 'G3', label: '3', name: 'Buddha' },
+  { stage: 4, note: 'A3', label: '4', name: 'Kamala' },
+  { stage: 5, note: 'B3', label: '5', name: 'City' },
+  { stage: 6, note: 'D4', label: '6', name: 'Abyss' },
+  { stage: 7, note: 'E4', label: '7', name: 'River' },
+  { stage: 8, note: 'G4', label: '8', name: 'Ferryman' },
+  { stage: 9, note: 'A4', label: '9', name: 'Oneness' },
+];
 
 interface CustomCSSProperties extends React.CSSProperties {
   '--star-opacity'?: number;
@@ -905,26 +917,79 @@ function StageAtmosphericParticles({ stageId }: { stageId: number }) {
 }
 
 /* Incense Burner Component with smoking wisps and candle placed within the container */
-function IncenseBurner({ active }: { active: boolean }) {
+function IncenseBurner({ active, index = 0 }: { active: boolean; index?: number }) {
+  // Unique randomized animation timings for this candle instance so each candle behaves distinctly
+  const anim = useMemo(() => {
+    // Deterministic base staggered by index combined with random jitter
+    const flameDur = +(1.8 + ((index * 0.53) % 1.1) + Math.random() * 0.45).toFixed(2);
+    const flameDelay = +(-(Math.random() * 2.5) - index * 0.75).toFixed(2);
+
+    const haloDur = +(2.1 + ((index * 0.61) % 1.3) + Math.random() * 0.5).toFixed(2);
+    const haloDelay = +(-(Math.random() * 2.0) - index * 0.6).toFixed(2);
+
+    const smoke1Dur = +(2.4 + ((index * 0.57) % 1.2) + Math.random() * 0.4).toFixed(2);
+    const smoke1Delay = +(-(Math.random() * 1.8) - index * 0.8).toFixed(2);
+    const smoke1Variant = (index % 3) + 1; // 1, 2, or 3
+
+    const smoke2Dur = +(2.9 + ((index * 0.49) % 1.4) + Math.random() * 0.5).toFixed(2);
+    const smoke2Delay = +(-(Math.random() * 2.2) - (index + 1) * 0.7).toFixed(2);
+    const smoke2Variant = ((index + 1) % 3) + 1; // 2, 3, or 1
+
+    const flickerVariant = index % 3; // 0, 1, or 2
+
+    return {
+      flameDur,
+      flameDelay,
+      haloDur,
+      haloDelay,
+      smoke1Dur,
+      smoke1Delay,
+      smoke1Variant,
+      smoke2Dur,
+      smoke2Delay,
+      smoke2Variant,
+      flickerVariant,
+    };
+  }, [index]);
+
   return (
-    <div className="relative w-8 h-9 flex items-end justify-center select-none">
-      <svg className="w-8 h-9 overflow-visible" viewBox="0 0 32 30" fill="none">
-        {/* Animated Smoke Wisps when active */}
+    <div
+      className="relative w-8 h-9 flex items-end justify-center select-none origin-center"
+      style={{ transformOrigin: 'center' }}
+    >
+      <svg
+        className="w-8 h-9 overflow-visible origin-center"
+        viewBox="0 0 32 30"
+        fill="none"
+        style={{ transformOrigin: '16px 15px' }}
+      >
+        {/* Animated Smoke Wisps when active - centered on candle wick origin (16px, 7.5px) */}
         {active && (
-          <g className="pointer-events-none">
+          <g
+            className="pointer-events-none origin-center"
+            style={{ transformOrigin: '16px 7.5px', transformBox: 'view-box' }}
+          >
             <path
               d="M16 6 C14 2, 18 -2, 15 -6 C13 -10, 17 -13, 15 -17"
               stroke="rgba(120, 113, 108, 0.55)"
               strokeWidth="1.3"
               strokeLinecap="round"
-              className="smoke-curl-1"
+              style={{
+                transformOrigin: '16px 8px',
+                transformBox: 'view-box',
+                animation: `smokeRise${anim.smoke1Variant} ${anim.smoke1Dur}s ease-out infinite ${anim.smoke1Delay}s`,
+              }}
             />
             <path
               d="M17 5 C19 1, 15 -3, 17 -7 C19 -11, 16 -14, 18 -18"
               stroke="rgba(140, 130, 122, 0.45)"
               strokeWidth="1.1"
               strokeLinecap="round"
-              className="smoke-curl-2"
+              style={{
+                transformOrigin: '16px 8px',
+                transformBox: 'view-box',
+                animation: `smokeRise${anim.smoke2Variant} ${anim.smoke2Dur}s ease-out infinite ${anim.smoke2Delay}s`,
+              }}
             />
           </g>
         )}
@@ -950,6 +1015,7 @@ function IncenseBurner({ active }: { active: boolean }) {
           rx="1"
           fill={active ? "#7c2d12" : "#a8a29e"}
           className="transition-colors duration-500"
+          style={{ transformOrigin: '16px 12.5px', transformBox: 'view-box' }}
         />
 
         {/* 4. Vessel Front Belly & Rim (Covers the lower base of the candle/stick) */}
@@ -967,23 +1033,61 @@ function IncenseBurner({ active }: { active: boolean }) {
           fill="none"
         />
 
-        {/* 5. Glowing Candle Flame / Ember (At the top of the stick) */}
+        {/* 5. Glowing Candle Flame / Ember (At the top of the stick - origin centered at 16px, 7.5px) */}
         {active ? (
-          <g className="transition-opacity duration-300">
+          <g
+            className="transition-opacity duration-300 origin-center"
+            style={{ transformOrigin: '16px 7.5px', transformBox: 'view-box' }}
+          >
             {/* Ambient Flame Halo */}
-            <circle cx="16" cy="7.5" r="4.5" fill="#f59e0b" opacity="0.4" filter="blur(1px)" className="animate-pulse" />
+            <circle
+              cx="16"
+              cy="7.5"
+              r="4.5"
+              fill="#f59e0b"
+              filter="blur(1px)"
+              style={{
+                transformOrigin: '16px 7.5px',
+                transformBox: 'view-box',
+                animation: `candleHaloBreath ${anim.haloDur}s ease-in-out infinite ${anim.haloDelay}s`,
+              }}
+            />
             {/* Teardrop Flame */}
             <path
               d="M16 3.5 C14.6 6, 14.5 7.5, 15 8.5 C15.5 9.2, 16.5 9.2, 17 8.5 C17.5 7.5, 17.4 6, 16 3.5 Z"
               fill="#fbbf24"
-              className="animate-pulse"
+              style={{
+                transformOrigin: '16px 7.5px',
+                transformBox: 'view-box',
+                animation: `candleFlicker${anim.flickerVariant} ${anim.flameDur}s ease-in-out infinite ${anim.flameDelay}s`,
+              }}
             />
             {/* Intense Flame Core */}
-            <ellipse cx="16" cy="7.8" rx="0.9" ry="1.4" fill="#fffbeb" />
+            <ellipse
+              cx="16"
+              cy="7.8"
+              rx="0.9"
+              ry="1.4"
+              fill="#fffbeb"
+              style={{
+                transformOrigin: '16px 7.8px',
+                transformBox: 'view-box',
+                animation: `candleFlicker${anim.flickerVariant} ${anim.flameDur}s ease-in-out infinite ${anim.flameDelay}s`,
+              }}
+            />
           </g>
         ) : (
           /* Burnt Out Cold Wick */
-          <line x1="16" y1="7" x2="16" y2="8" stroke="#44403c" strokeWidth="1.2" strokeLinecap="round" />
+          <line
+            x1="16"
+            y1="7"
+            x2="16"
+            y2="8"
+            stroke="#44403c"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+            style={{ transformOrigin: '16px 7.5px', transformBox: 'view-box' }}
+          />
         )}
       </svg>
     </div>
@@ -1087,8 +1191,13 @@ export default function Game() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [isTranscendence, setIsTranscendence] = useState(false);
+  const [enlightenmentPhase, setEnlightenmentPhase] = useState<'idle' | 'igniting' | 'blooming' | 'scroll'>('idle');
+  const [ignitedNodeIndex, setIgnitedNodeIndex] = useState<number>(-1);
+  const [isReincarnating, setIsReincarnating] = useState(false);
+  const [lastPlayedBell, setLastPlayedBell] = useState<number | null>(null);
   const [selectedLoreStage, setSelectedLoreStage] = useState<StageInfo | null>(null);
   const [stageCelebration, setStageCelebration] = useState<{ stageId: number; name: string; realm: string } | null>(null);
+  const [isAwaitingLoreContinue, setIsAwaitingLoreContinue] = useState(false);
   const [isMuted, setIsMuted] = useState(() => getIsMuted());
   const [isFullscreen, setIsFullscreen] = useState(() => isBrowserFullscreen());
   const [showAboutModal, setShowAboutModal] = useState(false);
@@ -1323,6 +1432,16 @@ export default function Game() {
   const currentPuzzleLength = currentStageIndex + 1;
   const currentTheme = STAGE_THEMES[currentStage.id] || STAGE_THEMES[1];
 
+  // Disable tone inputs during sequence playback, stage transitions, lore dialogs, or until player continues
+  const isInputDisabled =
+    !isPlaying ||
+    isShowingSequence ||
+    gameOver ||
+    isTranscendence ||
+    selectedLoreStage !== null ||
+    stageCelebration !== null ||
+    isAwaitingLoreContinue;
+
   const tutorialTonesRef = useRef<Direction[]>([]);
   const puzzleCountRef = useRef(puzzleCount);
   puzzleCountRef.current = puzzleCount;
@@ -1460,6 +1579,7 @@ export default function Game() {
     setSelectedLoreStage(null);
     if (isAwaitingLoreContinueRef.current && pendingStageSequenceRef.current) {
       isAwaitingLoreContinueRef.current = false;
+      setIsAwaitingLoreContinue(false);
       const seqToPlay = pendingStageSequenceRef.current;
       pendingStageSequenceRef.current = null;
       setIsShowingSequence(true);
@@ -1470,8 +1590,41 @@ export default function Game() {
     }
   }, [showSequence]);
 
+  const triggerEnlightenmentCeremony = useCallback(() => {
+    setIsShowingSequence(false);
+    setPlayerSequence([]);
+    setIsTranscendence(true);
+    setEnlightenmentPhase('igniting');
+    playEnlightenmentCeremony();
+
+    // 1. Sequentially ignite the 9 nodes along the Sumi-e path
+    for (let i = 0; i < 9; i++) {
+      setTimeout(() => {
+        setIgnitedNodeIndex(i);
+      }, i * 130);
+    }
+
+    // 2. Blooming celestial lotus & cosmic god rays
+    setTimeout(() => {
+      setEnlightenmentPhase('blooming');
+    }, 1300);
+
+    // 3. Present illuminated victory scroll
+    setTimeout(() => {
+      setEnlightenmentPhase('scroll');
+    }, 2400);
+  }, []);
+
   const handleInput = useCallback((direction: Direction) => {
-    if (!isPlaying || isShowingSequence || gameOver || isTranscendence) return;
+    if (
+      !isPlaying ||
+      isShowingSequence ||
+      gameOver ||
+      isTranscendence ||
+      selectedLoreStage !== null ||
+      stageCelebration !== null ||
+      isAwaitingLoreContinueRef.current
+    ) return;
 
     const nextIndex = playerSequence.length;
     const isCorrect = sequence[nextIndex] === direction;
@@ -1514,7 +1667,7 @@ export default function Game() {
         });
 
         if (nextCount >= TOTAL_PUZZLES_TO_ENLIGHTENMENT) {
-          setIsTranscendence(true);
+          triggerEnlightenmentCeremony();
           return;
         }
 
@@ -1524,6 +1677,7 @@ export default function Game() {
           const nextSeq = generateSequenceForPuzzle(nextCount);
           pendingStageSequenceRef.current = nextSeq;
           isAwaitingLoreContinueRef.current = true;
+          setIsAwaitingLoreContinue(true);
           setIsShowingSequence(false);
 
           // Graceful delay between puzzle completion and next stage announcement
@@ -1595,10 +1749,7 @@ export default function Game() {
     if (nextPuzzleCount >= TOTAL_PUZZLES_TO_ENLIGHTENMENT) {
       puzzleCountRef.current = TOTAL_PUZZLES_TO_ENLIGHTENMENT;
       setPuzzleCount(TOTAL_PUZZLES_TO_ENLIGHTENMENT);
-      setIsTranscendence(true);
-      setIsShowingSequence(false);
-      setPlayerSequence([]);
-      playStageFanfare();
+      triggerEnlightenmentCeremony();
       return;
     }
 
@@ -1617,6 +1768,7 @@ export default function Game() {
     const nextSeq = generateSequenceForPuzzle(nextPuzzleCount);
     pendingStageSequenceRef.current = nextSeq;
     isAwaitingLoreContinueRef.current = true;
+    setIsAwaitingLoreContinue(true);
 
     pendingTimeoutRef.current = window.setTimeout(() => {
       pendingTimeoutRef.current = null;
@@ -1630,11 +1782,12 @@ export default function Game() {
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
-    if (e.key === 'Escape') {
-      if (selectedLoreStage) {
+    if (selectedLoreStage) {
+      if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
         handleCloseLore();
-        return;
       }
+      return;
     }
 
     if (e.shiftKey && (e.key === 'A' || e.key === 'a' || e.code === 'KeyA')) {
@@ -1643,9 +1796,19 @@ export default function Game() {
       return;
     }
 
+    if (
+      !isPlaying ||
+      isShowingSequence ||
+      gameOver ||
+      isTranscendence ||
+      selectedLoreStage !== null ||
+      stageCelebration !== null ||
+      isAwaitingLoreContinueRef.current
+    ) return;
+
     if (e.key === 'ArrowUp') handleInput('up');
     if (e.key === 'ArrowDown') handleInput('down');
-  }, [advanceToNextStage, handleInput, selectedLoreStage, handleCloseLore]);
+  }, [advanceToNextStage, handleInput, selectedLoreStage, handleCloseLore, isPlaying, isShowingSequence, gameOver, isTranscendence, stageCelebration]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -1718,6 +1881,7 @@ export default function Game() {
     });
     pendingStageSequenceRef.current = initialSeq;
     isAwaitingLoreContinueRef.current = true;
+    setIsAwaitingLoreContinue(true);
     setIsShowingSequence(false);
 
     pendingTimeoutRef.current = window.setTimeout(() => {
@@ -1729,9 +1893,25 @@ export default function Game() {
     }, 2500);
   };
 
-  const continueCycle = () => {
-    startGame();
-  };
+  const handleReincarnate = useCallback(() => {
+    setIsReincarnating(true);
+    playClickSound();
+    setTimeout(() => {
+      setIsReincarnating(false);
+      setEnlightenmentPhase('idle');
+      setIgnitedNodeIndex(-1);
+      setIsTranscendence(false);
+      startGame();
+    }, 950);
+  }, [startGame]);
+
+  const handlePlayBell = useCallback((stageNum: number, note: string) => {
+    playSingingBowlNote(note);
+    setLastPlayedBell(stageNum);
+    setTimeout(() => {
+      setLastPlayedBell(curr => (curr === stageNum ? null : curr));
+    }, 600);
+  }, []);
 
   // Node coordinates along the left-to-right winding ink brush path
   const stagePositions = useMemo(() => {
@@ -2220,7 +2400,7 @@ export default function Game() {
                   {/* Three Incense Burners */}
                   <div className="flex items-center space-x-1 shrink-0">
                     {[0, 1, 2].map((i) => (
-                      <IncenseBurner key={i} active={i >= strikes} />
+                      <IncenseBurner key={i} active={i >= strikes} index={i} />
                     ))}
                   </div>
                 </div>
@@ -2240,6 +2420,14 @@ export default function Game() {
                       <stop offset="0%" stopColor="#52b788" stopOpacity="0.65" />
                       <stop offset="100%" stopColor="#52b788" stopOpacity="0" />
                     </radialGradient>
+
+                    {/* Radiant Golden Enlightenment Aura for Ignited Path Nodes */}
+                    <radialGradient id="enlightenmentNodeGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#fef08a" stopOpacity="0.95" />
+                      <stop offset="45%" stopColor="#f59e0b" stopOpacity="0.75" />
+                      <stop offset="85%" stopColor="#d97706" stopOpacity="0.35" />
+                      <stop offset="100%" stopColor="#d97706" stopOpacity="0" />
+                    </radialGradient>
                   </defs>
 
                   {/* 1. THE AFFINITY DESIGNER SUMI-E INK BRUSH STROKE & BASE EARTHY CIRCLES */}
@@ -2257,6 +2445,7 @@ export default function Game() {
                   {stagePositions.map((node, i) => {
                     const isPassed = i < currentStageIndex;
                     const isActive = i === currentStageIndex;
+                    const isEnlightenedNode = isTranscendence && (ignitedNodeIndex >= i || enlightenmentPhase === 'blooming' || enlightenmentPhase === 'scroll');
 
                     return (
                       <g 
@@ -2265,8 +2454,45 @@ export default function Game() {
                         className="transition-all duration-300 cursor-pointer"
                         onClick={() => setSelectedLoreStage(node)}
                       >
+                        {/* Golden Radiance Aura during Enlightenment River of Light */}
+                        {isEnlightenedNode && (
+                          <circle
+                            cx={node.x}
+                            cy={node.y}
+                            r="420"
+                            fill="url(#enlightenmentNodeGlow)"
+                            className="pointer-events-none animate-pulse"
+                          />
+                        )}
+
+                        {/* Sacred Blooming Lotus Halo at Node 9 */}
+                        {i === 8 && (enlightenmentPhase === 'blooming' || enlightenmentPhase === 'scroll') && (
+                          <g className="pointer-events-none">
+                            <circle
+                              cx={node.x}
+                              cy={node.y}
+                              r="560"
+                              fill="none"
+                              stroke="#fbbf24"
+                              strokeWidth="16"
+                              strokeDasharray="32 20"
+                              className="animate-spin drop-shadow-[0_0_25px_rgba(251,191,36,0.9)]"
+                              style={{ animationDuration: '24s' }}
+                            />
+                            <circle
+                              cx={node.x}
+                              cy={node.y}
+                              r="490"
+                              fill="none"
+                              stroke="#ffffff"
+                              strokeWidth="8"
+                              className="animate-pulse drop-shadow-[0_0_20px_rgba(255,255,255,0.9)]"
+                            />
+                          </g>
+                        )}
+
                         {/* Soft Jade Halo Glow for Completed Steps */}
-                        {isPassed && (
+                        {isPassed && !isEnlightenedNode && (
                           <circle
                             cx={node.x}
                             cy={node.y}
@@ -2414,7 +2640,7 @@ export default function Game() {
                 
                 {/* HIGHER TONE Stone */}
                 <div className="relative flex flex-col items-center">
-                  {currentStageIndex === 0 && !isShowingSequence && sequence[playerSequence.length] === 'up' && (
+                  {currentStageIndex === 0 && !isInputDisabled && sequence[playerSequence.length] === 'up' && (
                     <div className="absolute -top-3.5 z-20 px-2.5 py-0.5 bg-emerald-800 text-amber-100 text-[9px] font-black uppercase tracking-wider rounded-full shadow-lg animate-bounce whitespace-nowrap border border-emerald-400/50">
                       Click Here
                     </div>
@@ -2423,11 +2649,11 @@ export default function Game() {
                     type="button"
                     data-tone-button="true"
                     onClick={() => handleInput('up')}
-                    disabled={isShowingSequence}
-                    className={`jade-stone w-32 sm:w-36 py-3 px-3 flex flex-col items-center justify-center cursor-pointer transition-all ${
-                      isShowingSequence ? 'opacity-40 cursor-not-allowed scale-95' : 'hover:scale-105 active:scale-95'
+                    disabled={isInputDisabled}
+                    className={`jade-stone w-32 sm:w-36 py-3 px-3 flex flex-col items-center justify-center transition-all ${
+                      isInputDisabled ? 'opacity-40 cursor-not-allowed pointer-events-none scale-95' : 'cursor-pointer hover:scale-105 active:scale-95'
                     } ${
-                      currentStageIndex === 0 && !isShowingSequence && sequence[playerSequence.length] === 'up'
+                      currentStageIndex === 0 && !isInputDisabled && sequence[playerSequence.length] === 'up'
                         ? 'ring-2 ring-emerald-600 shadow-[0_0_16px_rgba(52,112,90,0.6)] scale-105'
                         : ''
                     }`}
@@ -2441,7 +2667,7 @@ export default function Game() {
 
                 {/* LOWER TONE Stone */}
                 <div className="relative flex flex-col items-center">
-                  {currentStageIndex === 0 && !isShowingSequence && sequence[playerSequence.length] === 'down' && (
+                  {currentStageIndex === 0 && !isInputDisabled && sequence[playerSequence.length] === 'down' && (
                     <div className="absolute -top-3.5 z-20 px-2.5 py-0.5 bg-emerald-800 text-amber-100 text-[9px] font-black uppercase tracking-wider rounded-full shadow-lg animate-bounce whitespace-nowrap border border-emerald-400/50">
                       Click Here
                     </div>
@@ -2450,11 +2676,11 @@ export default function Game() {
                     type="button"
                     data-tone-button="true"
                     onClick={() => handleInput('down')}
-                    disabled={isShowingSequence}
-                    className={`jade-stone w-32 sm:w-36 py-3 px-3 flex flex-col items-center justify-center cursor-pointer transition-all ${
-                      isShowingSequence ? 'opacity-40 cursor-not-allowed scale-95' : 'hover:scale-105 active:scale-95'
+                    disabled={isInputDisabled}
+                    className={`jade-stone w-32 sm:w-36 py-3 px-3 flex flex-col items-center justify-center transition-all ${
+                      isInputDisabled ? 'opacity-40 cursor-not-allowed pointer-events-none scale-95' : 'cursor-pointer hover:scale-105 active:scale-95'
                     } ${
-                      currentStageIndex === 0 && !isShowingSequence && sequence[playerSequence.length] === 'down'
+                      currentStageIndex === 0 && !isInputDisabled && sequence[playerSequence.length] === 'down'
                         ? 'ring-2 ring-emerald-600 shadow-[0_0_16px_rgba(52,112,90,0.6)] scale-105'
                         : ''
                     }`}
@@ -2587,50 +2813,170 @@ export default function Game() {
             )}
           </AnimatePresence>
 
-          {/* Transcendence Achieved Modal (All 27 Puzzles Completed) */}
+          {/* Grand Enlightenment Ceremony (All 27 Puzzles Completed) */}
           <AnimatePresence>
             {isTranscendence && (
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="absolute inset-0 z-50 bg-stone-900/70 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center"
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2 }}
+                className="absolute inset-0 z-50 flex flex-col items-center justify-center p-4 sm:p-6 text-center overflow-hidden"
+                style={{
+                  background: 'radial-gradient(circle at center, rgba(30, 27, 22, 0.88) 0%, rgba(12, 10, 9, 0.96) 100%)',
+                  backdropFilter: 'blur(8px)',
+                }}
               >
-                <motion.div
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.1 }}
-                  className="washi-card rounded-3xl p-7 max-w-sm w-full shadow-2xl flex flex-col items-center"
-                >
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#d9eee5] via-[#aed7c4] to-[#7dbb9f] flex items-center justify-center mb-3 shadow-md border border-white">
-                    <Sparkles size={30} className="text-[#1c2c23] animate-pulse" />
-                  </div>
-                  <span className="text-[10px] font-bold tracking-[0.25em] text-[#34705a] uppercase font-serif-zen">
-                    Stage 9 • The Eternal Flow
-                  </span>
-                  <h2 className="text-2xl font-bold text-stone-900 mt-1 mb-2 font-serif-zen">
-                    Enlightenment Achieved
-                  </h2>
-                  <p className="text-stone-700 mb-2 text-xs leading-relaxed font-serif-zen">
-                    You solved all 27 puzzles across Body, Mind, and Spirit, attaining ultimate oneness.
-                  </p>
-                  <p className="text-stone-500 mb-5 text-[11px] italic font-serif-zen">
-                    "Everything is sacred, time is a construct, and love is the most important force."
-                  </p>
-                  <div className="flex flex-col space-y-2 w-full">
-                    <button
-                      onClick={continueCycle}
-                      className="jade-stone w-full py-2.5 text-emerald-950 font-bold rounded-xl transition-all cursor-pointer text-xs uppercase tracking-wider font-serif-zen shadow-md"
-                    >
-                      Reincarnate (Play Again)
-                    </button>
-                    <button
-                      onClick={() => setShowAboutModal(true)}
-                      className="stone-btn-secondary w-full py-2.5 bg-stone-200/90 hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-bold transition-all cursor-pointer text-xs uppercase tracking-wider font-serif-zen"
-                    >
-                      About This Game
-                    </button>
-                  </div>
-                </motion.div>
+                {/* 1. Rotating Celestial Sunbeams / God Rays */}
+                <div
+                  className="absolute w-[200vw] h-[200vw] max-w-[1400px] max-h-[1400px] pointer-events-none anim-sunbeams opacity-40 mix-blend-screen"
+                  style={{
+                    background: 'conic-gradient(from 0deg at 50% 50%, rgba(251, 191, 36, 0.18) 0deg, transparent 20deg, rgba(245, 158, 11, 0.25) 40deg, transparent 65deg, rgba(253, 224, 71, 0.22) 90deg, transparent 115deg, rgba(251, 191, 36, 0.20) 140deg, transparent 170deg, rgba(245, 158, 11, 0.26) 200deg, transparent 230deg, rgba(253, 224, 71, 0.22) 260deg, transparent 290deg, rgba(251, 191, 36, 0.20) 320deg, transparent 350deg, rgba(251, 191, 36, 0.18) 360deg)',
+                  }}
+                />
+
+                {/* 2. Celestial Drifting Golden Petals & Motes */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                  {[...Array(16)].map((_, idx) => (
+                    <div
+                      key={`petal-${idx}`}
+                      className="absolute w-2.5 h-4 rounded-full bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                      style={{
+                        left: `${(idx * 6.25 + (idx % 3) * 4) % 96}%`,
+                        top: '-5%',
+                        animation: `enlightenmentPetalDrift ${5.5 + (idx % 5) * 1.2}s ease-in-out infinite ${(idx * 0.45).toFixed(1)}s`,
+                        transform: `scale(${0.6 + (idx % 4) * 0.2}) rotate(${idx * 24}deg)`,
+                        opacity: 0.8,
+                      }}
+                    />
+                  ))}
+                </div>
+
+                {/* 3. The Illuminated Grand Victory Scroll */}
+                {enlightenmentPhase === 'scroll' && (
+                  <motion.div
+                    initial={{ scale: 0.88, opacity: 0, y: 20 }}
+                    animate={{ scale: 1, opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="washi-card rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-[0_0_60px_rgba(251,191,36,0.25)] border-2 border-amber-300/40 relative z-10 flex flex-col items-center"
+                  >
+                    {/* Radiant Enso & Blooming Lotus Emblem */}
+                    <div className="relative mb-3 flex items-center justify-center">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#fef08a] via-[#f59e0b] to-[#b45309] p-0.5 shadow-[0_0_25px_rgba(245,158,11,0.6)] anim-enlightenment-aura">
+                        <div className="w-full h-full rounded-full bg-[#1c2c23] flex items-center justify-center border border-amber-200/60">
+                          <Sparkles size={32} className="text-amber-300 animate-pulse" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.3em] text-[#2d6a4f] uppercase font-serif-zen">
+                      Stage 9 • The Eternal Flow
+                    </span>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-stone-900 mt-1 mb-2 font-serif-zen tracking-wide">
+                      Enlightenment Achieved
+                    </h2>
+
+                    {/* Hermann Hesse Siddhartha revelation excerpt */}
+                    <p className="text-stone-700 text-xs sm:text-[13px] leading-relaxed font-serif-zen max-w-md mb-2">
+                      You solved all 27 puzzles across Body, Mind, and Spirit, merging with the river of time.
+                    </p>
+                    <p className="text-stone-600 mb-4 text-[11px] sm:text-xs italic font-serif-zen px-2 border-l-2 border-amber-500/40 pl-3 text-left bg-amber-50/50 py-1.5 rounded-r-lg max-w-md">
+                      "In this hour, Siddhartha ceased to fight against his destiny. There was no more sadness in his face, only the serenity of knowledge: that all voices in the river sing together in a single word — OM."
+                    </p>
+
+                    {/* Journey Retrospective Cards */}
+                    <div className="grid grid-cols-3 gap-2 sm:gap-3 w-full mb-4">
+                      <div className="bg-stone-100/80 rounded-xl p-2.5 flex flex-col items-center border border-stone-200/60 shadow-sm">
+                        <span className="text-[9px] uppercase tracking-wider text-stone-500 font-serif-zen">Attuned</span>
+                        <span className="text-base sm:text-lg font-bold text-[#2d6a4f] font-serif-zen">27 / 27</span>
+                        <span className="text-[8.5px] text-stone-400 font-serif-zen">All Chakras</span>
+                      </div>
+                      <div className="bg-stone-100/80 rounded-xl p-2.5 flex flex-col items-center border border-stone-200/60 shadow-sm">
+                        <span className="text-[9px] uppercase tracking-wider text-stone-500 font-serif-zen">Mindful Streak</span>
+                        <span className="text-base sm:text-lg font-bold text-amber-700 font-serif-zen">{peakStreak}</span>
+                        <span className="text-[8.5px] text-stone-400 font-serif-zen">Peak Focus</span>
+                      </div>
+                      <div className="bg-stone-100/80 rounded-xl p-2.5 flex flex-col items-center border border-stone-200/60 shadow-sm">
+                        <span className="text-[9px] uppercase tracking-wider text-stone-500 font-serif-zen">Candles</span>
+                        <span className="text-base sm:text-lg font-bold text-stone-800 font-serif-zen">{Math.max(0, 3 - strikes)} / 3</span>
+                        <span className="text-[8.5px] text-stone-400 font-serif-zen">Sacred Light</span>
+                      </div>
+                    </div>
+
+                    {/* Interactive Celestial Harmonizer (Free-Play Singing Bowls) */}
+                    <div className="w-full mb-4 p-2.5 sm:p-3 rounded-2xl bg-stone-900/10 border border-stone-300/60 flex flex-col items-center">
+                      <span className="text-[9.5px] font-black uppercase tracking-[0.2em] text-emerald-900 mb-2 font-serif-zen">
+                        Celestial Harmonizer • Touch The 9 Sacred Bells
+                      </span>
+                      <div className="flex items-center justify-center space-x-1 sm:space-x-1.5 w-full">
+                        {CELESTIAL_BELLS.map((bell) => (
+                          <button
+                            key={bell.stage}
+                            type="button"
+                            onClick={() => handlePlayBell(bell.stage, bell.note)}
+                            title={`Stage ${bell.stage}: ${bell.name} (${bell.note})`}
+                            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex flex-col items-center justify-center text-[10px] font-bold font-serif-zen transition-all cursor-pointer shadow-sm ${
+                              lastPlayedBell === bell.stage
+                                ? 'bg-amber-400 text-stone-950 scale-125 shadow-[0_0_15px_rgba(251,191,36,0.9)] ring-2 ring-white'
+                                : 'bg-stone-800/80 hover:bg-emerald-800 text-amber-100 hover:scale-110 active:scale-95'
+                            }`}
+                          >
+                            {bell.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col space-y-2 w-full">
+                      <button
+                        onClick={handleReincarnate}
+                        className="jade-stone w-full py-2.5 sm:py-3 text-emerald-950 font-bold rounded-xl transition-all cursor-pointer text-xs uppercase tracking-widest font-serif-zen shadow-lg hover:brightness-105 active:scale-95"
+                      >
+                        Reincarnate (Play Again)
+                      </button>
+                      <button
+                        onClick={() => setShowAboutModal(true)}
+                        className="stone-btn-secondary w-full py-2.5 bg-stone-200/90 hover:bg-stone-100 text-stone-700 hover:text-stone-900 font-bold transition-all cursor-pointer text-xs uppercase tracking-wider font-serif-zen"
+                      >
+                        About This Game
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Transcendent Reincarnation Enso Ink Wipe Overlay */}
+          <AnimatePresence>
+            {isReincarnating && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.35 }}
+                className="fixed inset-0 z-[100] bg-stone-950 flex flex-col items-center justify-center pointer-events-none"
+              >
+                <svg className="w-56 h-56 sm:w-72 sm:h-72" viewBox="0 0 200 200" fill="none">
+                  <circle
+                    cx="100"
+                    cy="100"
+                    r="80"
+                    stroke="#f59e0b"
+                    strokeWidth="12"
+                    strokeLinecap="round"
+                    strokeDasharray="500"
+                    strokeDashoffset="500"
+                    className="drop-shadow-[0_0_20px_rgba(251,191,36,0.8)]"
+                    style={{
+                      animation: 'ensoWipeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    }}
+                  />
+                </svg>
+                <span className="text-amber-100/90 font-serif-zen text-xs uppercase tracking-[0.3em] mt-4 animate-pulse">
+                  Reincarnating...
+                </span>
               </motion.div>
             )}
           </AnimatePresence>

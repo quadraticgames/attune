@@ -358,6 +358,57 @@ export const playStageFanfare = () => {
   });
 };
 
+/**
+ * Grand Enlightenment Ceremony Audio Climax:
+ * 1. An ascending 9-tone cascade traversing all 9 stages in harmony
+ * 2. A deep, long-resonating Tibetan Singing Bowl & Universal "OM" Chord
+ */
+export const playEnlightenmentCeremony = () => {
+  if (!chimeSynth) return;
+  const now = Tone.now();
+
+  // 1. Ascending 9-tone chakra attunement (one per stage)
+  const stageCascade = [
+    { note: 'D3', delay: 0.0, dur: '0.8', vel: 0.45 },
+    { note: 'E3', delay: 0.12, dur: '0.8', vel: 0.48 },
+    { note: 'G3', delay: 0.24, dur: '0.8', vel: 0.50 },
+    { note: 'A3', delay: 0.36, dur: '0.9', vel: 0.52 },
+    { note: 'B3', delay: 0.48, dur: '0.9', vel: 0.54 },
+    { note: 'D4', delay: 0.60, dur: '1.0', vel: 0.56 },
+    { note: 'E4', delay: 0.72, dur: '1.1', vel: 0.58 },
+    { note: 'G4', delay: 0.84, dur: '1.2', vel: 0.60 },
+    { note: 'A4', delay: 0.96, dur: '1.5', vel: 0.62 },
+  ];
+
+  stageCascade.forEach(({ note, delay, dur, vel }) => {
+    chimeSynth?.triggerAttackRelease(note, dur, now + delay, vel);
+  });
+
+  // 2. Deep Tibetan Singing Bowl & Resonant "OM" Harmonic Chord
+  const omTime = now + 1.25;
+  const singingBowlChord = [
+    { note: 'D2', dur: '5.5', vel: 0.65 },
+    { note: 'A2', dur: '5.0', vel: 0.55 },
+    { note: 'D3', dur: '4.8', vel: 0.50 },
+    { note: 'A3', dur: '4.5', vel: 0.45 },
+    { note: 'F#4', dur: '4.0', vel: 0.40 },
+    { note: 'D5', dur: '3.5', vel: 0.35 },
+    { note: 'A5', dur: '3.5', vel: 0.30 },
+  ];
+
+  singingBowlChord.forEach(({ note, dur, vel }) => {
+    chimeSynth?.triggerAttackRelease(note, dur, omTime, vel);
+  });
+};
+
+/**
+ * Play an interactive singing bowl tone for the ending free-play harmonizer
+ */
+export const playSingingBowlNote = (note: string) => {
+  if (!chimeSynth) return;
+  chimeSynth.triggerAttackRelease(note, '2.5', Tone.now(), 0.55);
+};
+
 // Audio pool for instantaneous responsive button clicks
 const CLICK_POOL_SIZE = 5;
 let clickPool: HTMLAudioElement[] = [];

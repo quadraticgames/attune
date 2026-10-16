@@ -137,11 +137,11 @@ export const STAGE_THEMES: Record<number, StageTheme> = {
   // Stage 5: Rich Man (Greed) - Decadent Decay, Heavy Smog, Tarnished Gold & Charcoal
   5: {
     isNight: true,
-    skyGradient: ['#1c1a17', '#2e271f', '#3d3326', '#1a1612'], // Heavy oppressive smog & dark smoky bronze
+    skyGradient: ['#857f77ff', '#745c40ff', '#826949ff', '#1a1612'], // Heavy oppressive smog & dark smoky bronze
     farMountain: '#383025',
     midMountain: '#2a231a',
     slopeMountain: '#18140f',
-    fogColor: '#12100d',
+    fogColor: '#776448ff',
     fogOpacity: 0.45, // Heavy brooding smog haze (45% opacity)
     celestial: { cx: 780, cy: 85, r: 44, fill: '#b8944d', glow: '#6e5424', opacity: 0.75 }, // Weary, tarnished greedy gold sun
     sparkleColor: '#c59f52',
