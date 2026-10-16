@@ -257,12 +257,12 @@ export const STAGE_PARTICLE_CONFIG = {
   stage3: {
     // Sacred Horizon Birds (Flying through the air, flapping wings, vanishing into distant horizon)
     horizonBirds: {
-      count: 7, // Total flying cranes across formation and solitary paths
-      flightDurationRange: [20, 28] as [number, number], // Flight crossing duration in seconds
-      wingFlapDurationRange: [0.40, 0.48] as [number, number], // Wing flap speed in seconds
-      scaleRange: [0.72, 1.15] as [number, number], // Starting bird scale
+      count: 9, // Total flying cranes across formation, pairs, and solitary paths
+      flightDurationRange: [14, 38] as [number, number], // Diverse flight crossing speeds (14s swift to 38s majestic drift)
+      wingFlapDurationRange: [0.22, 0.60] as [number, number], // Diverse wing flap speeds (0.22s brisk flutter to 0.60s slow graceful glide)
+      scaleRange: [0.65, 1.25] as [number, number], // Starting bird scales
       endScale: 0.12, // Vanishing scale at horizon
-      opacityRange: [0.72, 0.88] as [number, number], // 72% - 88% opacity
+      opacityRange: [0.70, 0.90] as [number, number], // 70% - 90% opacity
       color: '#26201b', // Sumi-e dark charcoal ink silhouette (#26201b)
       rimGlow: 'rgba(253, 224, 71, 0.40)', // Subtle golden enlightenment rim-light from sacred sun
     },
@@ -625,7 +625,7 @@ export function getStage3HorizonBirds(): HorizonBirdItem[] {
   // Flock formation presets:
   // Birds 0-3: Classic V-formation / echelon flock ascending toward horizon
   // Birds 4-5: Mid-altitude soaring pair
-  // Bird 6: Solitary crane gliding toward the sacred mountain peaks
+  // Birds 6-8: High & distant solitary gliders drifting toward mountain horizon
   const flockPresets: Array<{ flightPath: 1 | 2 | 3; offsetX: number; offsetY: number; baseDelay: number }> = [
     { flightPath: 1, offsetX: 0, offsetY: 0, baseDelay: -4.0 },       // Lead crane
     { flightPath: 1, offsetX: -2.8, offsetY: 3.2, baseDelay: -4.6 },   // Left wingman
@@ -634,16 +634,20 @@ export function getStage3HorizonBirds(): HorizonBirdItem[] {
     { flightPath: 2, offsetX: 0, offsetY: 0, baseDelay: -14.2 },      // High solitary crane
     { flightPath: 2, offsetX: -3.5, offsetY: 3.5, baseDelay: -15.1 },  // Companion pair
     { flightPath: 3, offsetX: 0, offsetY: 0, baseDelay: -8.5 },       // Distant valley glider
+    { flightPath: 1, offsetX: -8.5, offsetY: 1.8, baseDelay: -6.2 },  // Distant follower
+    { flightPath: 3, offsetX: -4.5, offsetY: -3.2, baseDelay: -18.0 }, // Mountain crest wanderer
   ];
 
   for (let i = 0; i < count; i++) {
     const preset = flockPresets[i % flockPresets.length];
-    const scale = +(lerp(cfg.scaleRange[0], cfg.scaleRange[1], (count - i) / count)).toFixed(2);
+    const scale = +(lerp(cfg.scaleRange[0], cfg.scaleRange[1], prng())).toFixed(2);
     const opacity = +(lerp(cfg.opacityRange[0], cfg.opacityRange[1], prng())).toFixed(2);
+    // Fully randomized crossing duration for each bird
     const flightDur = Math.round(lerp(cfg.flightDurationRange[0], cfg.flightDurationRange[1], prng()));
-    const flightDelay = +(preset.baseDelay + lerp(-0.3, 0.3, prng())).toFixed(1);
+    const flightDelay = +(preset.baseDelay + lerp(-0.6, 0.6, prng())).toFixed(1);
+    // Fully randomized wing flapping speed for each bird
     const wingFlapDur = +(lerp(cfg.wingFlapDurationRange[0], cfg.wingFlapDurationRange[1], prng())).toFixed(2);
-    const wingFlapDelay = +(-lerp(0.02, wingFlapDur * 0.8, prng())).toFixed(2);
+    const wingFlapDelay = +(-lerp(0.01, wingFlapDur * 0.95, prng())).toFixed(2);
 
     items.push({
       id: i + 1,

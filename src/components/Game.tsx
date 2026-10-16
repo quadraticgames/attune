@@ -398,6 +398,7 @@ function StageThreeHorizonBirds() {
               '--bird-opacity': bird.opacity,
               '--bird-flight-dur': `${bird.flightDur}s`,
               '--wing-flap-dur': `${bird.wingFlapDur}s`,
+              animationDuration: `${bird.flightDur}s`,
               animationDelay: `${bird.flightDelay}s`,
             } as CustomCSSProperties}
           >
@@ -409,16 +410,28 @@ function StageThreeHorizonBirds() {
                 filter: `drop-shadow(0 1px 3px ${cfg.rimGlow || 'rgba(253, 224, 71, 0.4)'})`,
               }}
             >
-              {/* Left Wing (Flaps up/down) */}
-              <g className="anim-bird-wing-left" style={{ animationDelay: `${bird.wingFlapDelay}s` }}>
+              {/* Left Wing (Flaps up/down at bird's randomized speed) */}
+              <g
+                className="anim-bird-wing-left"
+                style={{
+                  animationDuration: `${bird.wingFlapDur}s`,
+                  animationDelay: `${bird.wingFlapDelay}s`,
+                }}
+              >
                 <path
                   d="M -1 -1 C -6 -7, -13 -12, -21 -13 C -15 -5, -9 1, -1 3 Z"
                   fill={cfg.color}
                 />
               </g>
 
-              {/* Right Wing (Flaps up/down) */}
-              <g className="anim-bird-wing-right" style={{ animationDelay: `${bird.wingFlapDelay}s` }}>
+              {/* Right Wing (Flaps up/down at bird's randomized speed) */}
+              <g
+                className="anim-bird-wing-right"
+                style={{
+                  animationDuration: `${bird.wingFlapDur}s`,
+                  animationDelay: `${bird.wingFlapDelay}s`,
+                }}
+              >
                 <path
                   d="M 1 -1 C 6 -7, 13 -12, 21 -13 C 15 -5, 9 1, 1 3 Z"
                   fill={cfg.color}
@@ -426,7 +439,13 @@ function StageThreeHorizonBirds() {
               </g>
 
               {/* Slender Crane Body & Streamlined Head */}
-              <g className="anim-bird-body" style={{ animationDelay: `${bird.wingFlapDelay}s` }}>
+              <g
+                className="anim-bird-body"
+                style={{
+                  animationDuration: `${bird.wingFlapDur}s`,
+                  animationDelay: `${bird.wingFlapDelay}s`,
+                }}
+              >
                 <path
                   d="M 0 -9 C 1 -5, 1.5 -1, 1 4 C 0.5 8, 0 13, 0 13 C 0 13, -0.5 8, -1 4 C -1.5 -1, -1 -5, 0 -9 Z"
                   fill={cfg.color}
