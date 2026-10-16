@@ -343,15 +343,14 @@ export const playWrongNote = () => {
 
 export const playStageFanfare = () => {
   if (!chimeSynth) return;
-  // Meditative Zen temple wind chime: a slow, breathing open-fifth progression
-  // that resonates quietly across the mountain valley with no game-show fanfare.
+  // Brisk, luminous Zen temple wind chime pitched up one octave (D5-A5-D6-E6-A6)
   const now = Tone.now();
   const melody = [
-    { note: 'D4', delay: 0.0, dur: '1.2', vel: 0.55 },   // Deep grounding bronze bell
-    { note: 'A4', delay: 0.38, dur: '1.0', vel: 0.50 },  // Pure meditative fifth
-    { note: 'D5', delay: 0.82, dur: '1.2', vel: 0.46 },  // Gentle singing chime
-    { note: 'E5', delay: 1.32, dur: '1.4', vel: 0.42 },  // Ethereal suspended harmony
-    { note: 'A5', delay: 1.86, dur: '2.4', vel: 0.38 },  // Celestial high bell dissolving into reverb
+    { note: 'D5', delay: 0.0, dur: '0.7', vel: 0.58 },   // Resonant crystal bell strike
+    { note: 'A5', delay: 0.16, dur: '0.7', vel: 0.54 },  // Pure open fifth
+    { note: 'D6', delay: 0.34, dur: '0.8', vel: 0.50 },  // High singing chime
+    { note: 'E6', delay: 0.54, dur: '1.0', vel: 0.46 },  // Ethereal suspended harmonic
+    { note: 'A6', delay: 0.76, dur: '2.0', vel: 0.42 },  // Shimmering celestial overtone
   ];
 
   melody.forEach(({ note, delay, dur, vel }) => {
