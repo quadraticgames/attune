@@ -2058,7 +2058,7 @@ export default function Game() {
 
             {/* Tibet Sacred Landscape (tibet.svg) covering 100% of the game area with authentic, non-stretched proportions */}
             <img
-              src="/svg/tibet.svg"
+              src={`${import.meta.env.BASE_URL}svg/tibet.svg`}
               alt=""
               className="absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none z-0 transition-all duration-1000"
               style={{
@@ -2168,7 +2168,7 @@ export default function Game() {
 
                 {/* Lotus Medallion */}
                 <img
-                  src="/svg/lotus.svg"
+                  src={`${import.meta.env.BASE_URL}svg/lotus.svg`}
                   alt="Lotus"
                   className="w-20 h-20 rounded-full shadow-lg border-2 border-white/80 object-contain drop-shadow-md select-none pointer-events-none"
                 />
@@ -2436,7 +2436,7 @@ export default function Game() {
 
                   {/* 1. THE AFFINITY DESIGNER SUMI-E INK BRUSH STROKE & BASE EARTHY CIRCLES */}
                   <image
-                    href="/svg/path.svg"
+                    href={`${import.meta.env.BASE_URL}svg/path.svg`}
                     x="0"
                     y="0"
                     width="6292"
@@ -2530,7 +2530,7 @@ export default function Game() {
                           >
                             {/* Active Stage: Lotus Medallion with White Circular Frame */}
                             <image
-                              href="/svg/lotus.svg"
+                              href={`${import.meta.env.BASE_URL}svg/lotus.svg`}
                               x={node.x - 235.4}
                               y={node.y - 235.4}
                               width="470.8"
@@ -2665,7 +2665,7 @@ export default function Game() {
                     <span className="text-[8.5px] uppercase font-black tracking-widest text-emerald-950/80 mb-1.5 font-serif-zen">
                       Higher Tone
                     </span>
-                    <img src="/svg/yinyang.svg" alt="" className="w-7 h-7 object-contain drop-shadow-sm" />
+                    <img src={`${import.meta.env.BASE_URL}svg/yinyang.svg`} alt="" className="w-7 h-7 object-contain drop-shadow-sm" />
                   </button>
                 </div>
 
@@ -2692,7 +2692,7 @@ export default function Game() {
                     <span className="text-[8.5px] uppercase font-black tracking-widest text-emerald-950/80 mb-1.5 font-serif-zen">
                       Lower Tone
                     </span>
-                    <img src="/svg/yinyang.svg" alt="" className="w-7 h-7 object-contain drop-shadow-sm" />
+                    <img src={`${import.meta.env.BASE_URL}svg/yinyang.svg`} alt="" className="w-7 h-7 object-contain drop-shadow-sm" />
                   </button>
                 </div>
 
@@ -2724,7 +2724,7 @@ export default function Game() {
                 >
                   {/* Custom Deckled Parchment Paper with sharp torn corners and micro-tears */}
                   <img
-                    src="/svg/parchment.svg"
+                    src={`${import.meta.env.BASE_URL}svg/parchment.svg`}
                     alt=""
                     className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none z-0"
                   />
@@ -2905,7 +2905,7 @@ export default function Game() {
                       <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#fef08a] via-[#f59e0b] to-[#b45309] p-0.5 shadow-[0_0_25px_rgba(245,158,11,0.6)] anim-enlightenment-aura">
                         <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center border border-amber-200/60 bg-[#1c2c23]">
                           <img
-                            src="/svg/lotus.svg"
+                            src={`${import.meta.env.BASE_URL}svg/lotus.svg`}
                             alt="Lotus"
                             className="w-full h-full object-cover select-none pointer-events-none"
                           />

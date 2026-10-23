@@ -165,7 +165,7 @@ export const initializeAudio = async () => {
   // Player for lowtone.mp3 with anti-click crossfades (boosted to balance with hightone)
   try {
     lowTonePlayer = new Tone.Player({
-      url: '/lowtone.mp3',
+      url: `${import.meta.env.BASE_URL}lowtone.mp3`,
       volume: 0.5,
       fadeIn: 0.005,
       fadeOut: 0.04,
@@ -177,7 +177,7 @@ export const initializeAudio = async () => {
   // Player for hightone.mp3 with anti-click crossfades
   try {
     highTonePlayer = new Tone.Player({
-      url: '/hightone.mp3',
+      url: `${import.meta.env.BASE_URL}hightone.mp3`,
       volume: -4,
       fadeIn: 0.005,
       fadeOut: 0.04,
@@ -215,7 +215,7 @@ export const startDrone = async () => {
     try {
       if (!seamlessDroneBuffer) {
         isDroneLoading = true;
-        const resp = await fetch('/drone.mp3');
+        const resp = await fetch(`${import.meta.env.BASE_URL}drone.mp3`);
         const arrayBuf = await resp.arrayBuffer();
         const rawBuf = await ctx.decodeAudioData(arrayBuf);
         seamlessDroneBuffer = createSeamlessLoopBuffer(rawBuf, ctx, 1.0);
@@ -258,7 +258,7 @@ export const startDrone = async () => {
     } catch (e) {
       console.warn('Web Audio drone error, falling back to HTMLAudioElement', e);
       if (!fallbackAudio) {
-        fallbackAudio = new Audio('/drone.mp3');
+        fallbackAudio = new Audio(`${import.meta.env.BASE_URL}drone.mp3`);
         fallbackAudio.loop = true;
         fallbackAudio.muted = isDroneMuted;
         if (!hasDroneFadedIn && !isDroneMuted) {
@@ -419,7 +419,7 @@ export const playClickSound = () => {
     if (typeof window !== 'undefined') {
       if (clickPool.length === 0) {
         for (let i = 0; i < CLICK_POOL_SIZE; i++) {
-          const audio = new Audio('/click.mp3');
+          const audio = new Audio(`${import.meta.env.BASE_URL}click.mp3`);
           audio.volume = 0.65;
           audio.preload = 'auto';
           clickPool.push(audio);
