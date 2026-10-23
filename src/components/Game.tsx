@@ -168,6 +168,31 @@ const LANTERN_EMBERS = getStage5LanternEmbers();
 const NIGHT_STARS_STAGE_6 = getStage6NightStars();
 const NIGHT_STARS_STAGE_8 = getStage8NightStars();
 
+// Precomputed random celestial golden stars for the Enlightenment screen
+const ENLIGHTENMENT_GOLD_STARS = (() => {
+  const stars = [];
+  let seed = 777;
+  const rnd = () => {
+    seed = (seed * 9301 + 49297) % 233280;
+    return seed / 233280;
+  };
+  const colors = ['#fffbeb', '#fef08a', '#fde047', '#fbbf24', '#f59e0b'];
+
+  for (let i = 0; i < 42; i++) {
+    const x = +(3 + rnd() * 94).toFixed(1);
+    const y = +(3 + rnd() * 94).toFixed(1);
+    const size = +(2.8 + rnd() * 3.8).toFixed(1);
+    const isMajor = i % 4 === 0;
+    const duration = +(3.8 + rnd() * 3.8).toFixed(1); // 3.8s to 7.6s slow pulse
+    const delay = +(-rnd() * 6).toFixed(1); // negative delay for immediate, staggered pulsing
+    const maxOpacity = +(0.75 + rnd() * 0.25).toFixed(2);
+    const minOpacity = +(0.04 + rnd() * 0.1).toFixed(2);
+    const color = colors[Math.floor(rnd() * colors.length)];
+    stars.push({ id: i, x, y, size, isMajor, duration, delay, maxOpacity, minOpacity, color });
+  }
+  return stars;
+})();
+
 function GlowingStarField({ stars, defaultGlow }: { stars: GlowingStarItem[]; defaultGlow: string }) {
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -2835,20 +2860,56 @@ export default function Game() {
                   }}
                 />
 
-                {/* 2. Celestial Drifting Golden Petals & Motes */}
+                {/* 2. Celestial Pulsing Golden Stars */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                  {[...Array(16)].map((_, idx) => (
+                  {ENLIGHTENMENT_GOLD_STARS.map((star) => (
                     <div
-                      key={`petal-${idx}`}
-                      className="absolute w-2.5 h-4 rounded-full bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                      key={`gold-star-${star.id}`}
+                      className="absolute pointer-events-none"
                       style={{
-                        left: `${(idx * 6.25 + (idx % 3) * 4) % 96}%`,
-                        top: '-5%',
-                        animation: `enlightenmentPetalDrift ${5.5 + (idx % 5) * 1.2}s ease-in-out infinite ${(idx * 0.45).toFixed(1)}s`,
-                        transform: `scale(${0.6 + (idx % 4) * 0.2}) rotate(${idx * 24}deg)`,
-                        opacity: 0.8,
+                        left: `${star.x}%`,
+                        top: `${star.y}%`,
                       }}
-                    />
+                    >
+                      <div
+                        className="anim-gold-star-pulse flex items-center justify-center pointer-events-none"
+                        style={{
+                          animationDuration: `${star.duration}s`,
+                          animationDelay: `${star.delay}s`,
+                          ['--star-max-opacity' as any]: star.maxOpacity,
+                          ['--star-min-opacity' as any]: star.minOpacity,
+                        }}
+                      >
+                        {star.isMajor ? (
+                          <div
+                            style={{
+                              width: `${star.size * 3.6}px`,
+                              height: `${star.size * 3.6}px`,
+                            }}
+                            className="flex items-center justify-center"
+                          >
+                            <svg viewBox="0 0 24 24" className="w-full h-full overflow-visible">
+                              <path
+                                d="M12 0 Q12 12 24 12 Q12 12 12 24 Q12 12 0 12 Q12 12 12 0 Z"
+                                fill={star.color}
+                                filter="drop-shadow(0 0 4px rgba(251,191,36,0.85))"
+                              />
+                              <circle cx="12" cy="12" r="2.2" fill="#ffffff" />
+                            </svg>
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              width: `${star.size}px`,
+                              height: `${star.size}px`,
+                              backgroundColor: star.color,
+                              boxShadow: `0 0 6px ${star.color}, 0 0 12px rgba(245,158,11,0.7)`,
+                            }}
+                            className="rounded-full"
+                          />
+                        )}
+                      </div>
+                    </div>
                   ))}
                 </div>
 
@@ -2863,8 +2924,12 @@ export default function Game() {
                     {/* Radiant Enso & Blooming Lotus Emblem */}
                     <div className="relative mb-3 flex items-center justify-center">
                       <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#fef08a] via-[#f59e0b] to-[#b45309] p-0.5 shadow-[0_0_25px_rgba(245,158,11,0.6)] anim-enlightenment-aura">
-                        <div className="w-full h-full rounded-full bg-[#1c2c23] flex items-center justify-center border border-amber-200/60">
-                          <Sparkles size={32} className="text-amber-300 animate-pulse" />
+                        <div className="w-full h-full rounded-full overflow-hidden flex items-center justify-center border border-amber-200/60 bg-[#1c2c23]">
+                          <img
+                            src="/svg/lotus.svg"
+                            alt="Lotus"
+                            className="w-full h-full object-cover select-none pointer-events-none"
+                          />
                         </div>
                       </div>
                     </div>
