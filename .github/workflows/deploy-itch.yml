@@ -26,11 +26,15 @@ jobs:
       - name: Build web distribution
         run: npm run build
 
-      - name: Deploy to itch.io via Butler
-        uses: manleycode/butler-publish-itchio-action@master
+      - name: Install Butler
+        run: |
+          curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+          unzip butler.zip -d bin/
+          chmod +x bin/butler
+          bin/butler -V
+
+      - name: Push to itch.io via Butler
         env:
-          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
-          CHANNEL: html5
-          ITCH_GAME: ${{ secrets.ITCH_GAME || 'attune' }}
-          ITCH_USER: ${{ secrets.ITCH_USER || 'your-itch-username' }}
-          PACKAGE: dist
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          ./bin/butler push dist quadraticgames/attune:html5
