@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, RotateCcw, Sparkles, Check, X, BookOpen, Volume2, VolumeX, Brain, Wind, Maximize, Minimize, ExternalLink } from 'lucide-react';
-import { playCorrectNote, playWrongNote, initializeAudio, startDrone, playStageFanfare, toggleMute, getIsMuted, playClickSound, playEnlightenmentCeremony, playSingingBowlNote } from '../utils/sound';
+import { playCorrectNote, playWrongNote, initializeAudio, startDrone, playStageFanfare, toggleMute, getIsMuted, playClickSound, playEnlightenmentCeremony } from '../utils/sound';
 import {
   GLOBAL_VISUAL_CONFIG,
   GlowingStarItem,
@@ -141,18 +141,6 @@ const STAGES: StageInfo[] = [
 ];
 
 const TOTAL_PUZZLES_TO_ENLIGHTENMENT = 27;
-
-const CELESTIAL_BELLS = [
-  { stage: 1, note: 'D3', label: '1', name: 'Departure' },
-  { stage: 2, note: 'E3', label: '2', name: 'Ascetics' },
-  { stage: 3, note: 'G3', label: '3', name: 'Buddha' },
-  { stage: 4, note: 'A3', label: '4', name: 'Kamala' },
-  { stage: 5, note: 'B3', label: '5', name: 'City' },
-  { stage: 6, note: 'D4', label: '6', name: 'Abyss' },
-  { stage: 7, note: 'E4', label: '7', name: 'River' },
-  { stage: 8, note: 'G4', label: '8', name: 'Ferryman' },
-  { stage: 9, note: 'A4', label: '9', name: 'Oneness' },
-];
 
 interface CustomCSSProperties extends React.CSSProperties {
   '--star-opacity'?: number;
@@ -1219,7 +1207,6 @@ export default function Game() {
   const [enlightenmentPhase, setEnlightenmentPhase] = useState<'idle' | 'igniting' | 'blooming' | 'scroll'>('idle');
   const [ignitedNodeIndex, setIgnitedNodeIndex] = useState<number>(-1);
   const [isReincarnating, setIsReincarnating] = useState(false);
-  const [lastPlayedBell, setLastPlayedBell] = useState<number | null>(null);
   const [selectedLoreStage, setSelectedLoreStage] = useState<StageInfo | null>(null);
   const [stageCelebration, setStageCelebration] = useState<{ stageId: number; name: string; realm: string } | null>(null);
   const [isAwaitingLoreContinue, setIsAwaitingLoreContinue] = useState(false);
@@ -1929,14 +1916,6 @@ export default function Game() {
       startGame();
     }, 950);
   }, [startGame]);
-
-  const handlePlayBell = useCallback((stageNum: number, note: string) => {
-    playSingingBowlNote(note);
-    setLastPlayedBell(stageNum);
-    setTimeout(() => {
-      setLastPlayedBell(curr => (curr === stageNum ? null : curr));
-    }, 600);
-  }, []);
 
   // Node coordinates along the left-to-right winding ink brush path
   const stagePositions = useMemo(() => {
@@ -2654,7 +2633,7 @@ export default function Game() {
                       </span>
                     ) : (
                       <span className="text-[10.5px] sm:text-[11.5px] italic text-stone-300 font-serif-zen mt-0.5 block whitespace-nowrap drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
-                        {isShowingSequence ? 'Listen to the bells...' : 'Repeat the tone'}
+                        {isShowingSequence ? 'Listen to the tones...' : 'Repeat the tone'}
                       </span>
                     )}
                   </motion.div>
@@ -2965,30 +2944,6 @@ export default function Game() {
                         <span className="text-[9px] uppercase tracking-wider text-stone-500 font-serif-zen">Candles</span>
                         <span className="text-base sm:text-lg font-bold text-stone-800 font-serif-zen">{Math.max(0, 3 - strikes)} / 3</span>
                         <span className="text-[8.5px] text-stone-400 font-serif-zen">Sacred Light</span>
-                      </div>
-                    </div>
-
-                    {/* Interactive Celestial Harmonizer (Free-Play Singing Bowls) */}
-                    <div className="w-full mb-4 p-2.5 sm:p-3 rounded-2xl bg-stone-900/10 border border-stone-300/60 flex flex-col items-center">
-                      <span className="text-[9.5px] font-black uppercase tracking-[0.2em] text-emerald-900 mb-2 font-serif-zen">
-                        Celestial Harmonizer • Touch The 9 Sacred Bells
-                      </span>
-                      <div className="flex items-center justify-center space-x-1 sm:space-x-1.5 w-full">
-                        {CELESTIAL_BELLS.map((bell) => (
-                          <button
-                            key={bell.stage}
-                            type="button"
-                            onClick={() => handlePlayBell(bell.stage, bell.note)}
-                            title={`Stage ${bell.stage}: ${bell.name} (${bell.note})`}
-                            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex flex-col items-center justify-center text-[10px] font-bold font-serif-zen transition-all cursor-pointer shadow-sm ${
-                              lastPlayedBell === bell.stage
-                                ? 'bg-amber-400 text-stone-950 scale-125 shadow-[0_0_15px_rgba(251,191,36,0.9)] ring-2 ring-white'
-                                : 'bg-stone-800/80 hover:bg-emerald-800 text-amber-100 hover:scale-110 active:scale-95'
-                            }`}
-                          >
-                            {bell.label}
-                          </button>
-                        ))}
                       </div>
                     </div>
 
